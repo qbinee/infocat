@@ -1,2 +1,5 @@
-package backend.resumerryv2.user.domain;public enum UserCategory {
+package backend.resumerryv2.user.domain;
+
+public enum UserCategory {
+    STUDENT, JUNIOR, SENIOR, DIRECTOR, HEADHUNTER
 }
