@@ -1,1 +1,33 @@
+spring:
+  security:
+    user:
+      name: gblee
+      password: 1234
+  sql:
+    init:
+      mode: always
+  datasource:
+    url: jdbc:mysql://resumerry.c1wuckwlvegg.ap-northeast-2.rds.amazonaws.com:3306/
+    username: admin
+    password: dkwneo12!
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    defer-datasource-initialization: false
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+---
+jwt:
+  secret: uacc-to-the-moon
+  expire-time: 14400000
+  admin-payload: admin-payload
+---
+swagger-ui:
+  path: http://localhost:8080
+
 
