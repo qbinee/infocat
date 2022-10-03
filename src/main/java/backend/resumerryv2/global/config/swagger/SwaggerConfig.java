@@ -13,6 +13,7 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 
 import java.util.Collections;
+import java.util.function.Predicate;
 
 @Configuration
 public class SwaggerConfig {
@@ -28,7 +29,8 @@ public class SwaggerConfig {
                 .useDefaultResponseMessages(false)
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("backend.resumerryv2"))
-                .paths(PathSelectors.any())
+                .paths(PathSelectors.ant("/**"))
+                .paths(Predicate.not(PathSelectors.regex("/admin.*")))
                 .build()
                 .apiInfo(apiInfo());
     }
@@ -36,15 +38,15 @@ public class SwaggerConfig {
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 .title("Resumerry Swagger")
-                .description("testing resumeery api")
+                .description("testing resummery api")
                 .version("1.0.0")
                 .build();
     }
 
     private Server serverInfo() {
-        return new Server("local",
+        return new Server("",
                 swaggerPath,
-                "for local usages",
+                "",
                 Collections.emptyList(),
                 Collections.emptyList()
         );
