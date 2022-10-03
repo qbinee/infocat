@@ -1,5 +1,6 @@
 package backend.resumerryv2.auth.domain;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -7,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor
@@ -20,5 +22,14 @@ public class EmailValidation {
 
     private Integer validationCode;
 
-    private Integer expireTime;
+    private LocalDateTime expireTime;
+
+    @Builder
+    public EmailValidation(Long id, String email, Integer validationCode, LocalDateTime expireTime) {
+        this.id = id;
+        this.email = email;
+        this.validationCode = validationCode;
+        this.expireTime = expireTime;
+    }
+
 }

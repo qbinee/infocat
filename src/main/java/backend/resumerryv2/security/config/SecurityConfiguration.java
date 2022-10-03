@@ -1,4 +1,4 @@
-package backend.resumerryv2.security;
+package backend.resumerryv2.security.config;
 
 
 import org.springframework.context.annotation.Bean;

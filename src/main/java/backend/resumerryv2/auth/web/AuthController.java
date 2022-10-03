@@ -4,10 +4,11 @@ import backend.resumerryv2.auth.domain.dto.*;
 import backend.resumerryv2.auth.service.AuthService;
 import backend.resumerryv2.auth.service.EmailService;
 import backend.resumerryv2.global.dto.GlobalResponse;
-import com.sun.mail.smtp.SMTPSendFailedException;
+import backend.resumerryv2.exception.validation.ValidationSequence;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +24,7 @@ public class AuthController {
 
     @PostMapping("/validation")
     public ResponseEntity<GlobalResponse> checkSignUpValidation(
-            @RequestBody ValidationRequest validationRequest
+            @Validated(ValidationSequence.class) @RequestBody ValidationRequest validationRequest
             ){
         return ResponseEntity.ok(GlobalResponse.ofSuccess());
     }
@@ -32,8 +33,12 @@ public class AuthController {
     public ResponseEntity<GlobalResponse> sendValidationCodeEmail(
             @RequestBody EmailRequest email
     ){
-        SimpleMailMessage simpleMailMessage = emailService.setValidationCodeEmailForm(email.getEmail());
+        // 이메일 전송
+        Integer validationCode = emailService.setValidationCode();
+        SimpleMailMessage simpleMailMessage = emailService.setValidationCodeEmailForm(email.getEmail(), validationCode);
         emailService.sendEmail(email.getEmail(), simpleMailMessage);
         return ResponseEntity.ok(GlobalResponse.ofSuccess());
     }
+
+
 }
