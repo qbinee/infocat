@@ -1,2 +1,26 @@
-package backend.resumerryv2.global.dto;public class SuccessResponse {
+package backend.resumerryv2.global.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+public class GlobalResponse {
+
+    private static final String STATUS_SUCCESS = "true";
+    private static final String STATUS_FAILURE = "false";
+    private String result;
+
+    public static GlobalResponse ofSuccess() {
+        return new GlobalResponse(STATUS_SUCCESS);
+    }
+
+    public static GlobalResponse ofFailure() {
+        return new GlobalResponse(STATUS_FAILURE);
+    }
+
 }
