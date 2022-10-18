@@ -30,6 +30,7 @@ public class AuthService {
         String accessToken = jwtProvider.generateToken(email, TokenType.ACCESS_TOKEN);
         Cookie cookie = new Cookie("AccessToken", accessToken);
         cookie.setHttpOnly(true);
+        cookie.setPath("/");
         return cookie;
     }
 
@@ -45,7 +46,7 @@ public class AuthService {
         emailService.deleteValidationCode(e);
     }
 
-    public void checkDuplicatedUser(String email){
+    private void checkDuplicatedUser(String email){
         if(userRepository.findByEmail(email).isPresent())
             throw new CustomException(HttpStatus.FORBIDDEN, ErrorType.DUPLICATED_USER);
     }
