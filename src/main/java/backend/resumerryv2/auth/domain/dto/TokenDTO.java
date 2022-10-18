@@ -1,4 +1,3 @@
-/* Licensed under InfoCat */
 package backend.resumerryv2.auth.domain.dto;
 
 import lombok.AllArgsConstructor;

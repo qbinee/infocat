@@ -1,5 +1,5 @@
-/* Licensed under InfoCat */
 package backend.resumerryv2.security.config;
+
 
 import backend.resumerryv2.security.JwtAuthenticationFilter;
 import backend.resumerryv2.security.exception.JwtAuthenticationEntryPoint;
@@ -18,35 +18,37 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class SecurityConfiguration {
 
-  private final String BaseURL = "http://127.0.0.1:8080";
+    private final String BaseURL = "http://127.0.0.1:8080";
 
-  private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
-  private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
-  @Bean
-  public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-    http.httpBasic()
-        .and()
-        .csrf()
-        .disable()
-        .sessionManagement()
-        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-        .and()
-        .exceptionHandling()
-        .authenticationEntryPoint(jwtAuthenticationEntryPoint)
-        .and()
-        .authorizeRequests()
-        .antMatchers(HttpMethod.OPTIONS, "/**/*")
-        .permitAll()
-        .antMatchers("/api/v1/users/login", "/api/v1/mentoring/**")
-        .permitAll()
-        .antMatchers("/api/v1/users/sample")
-        .authenticated()
-        .anyRequest()
-        .permitAll()
-        .and()
-        .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
-    return http.build();
-  }
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+
+                .httpBasic()
+                .and()
+                .csrf().disable()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint)
+                .and()
+                .authorizeRequests()
+                .antMatchers(HttpMethod.OPTIONS, "/**/*")
+                .permitAll()
+                .antMatchers("/auth/login")
+                .permitAll()
+                .antMatchers("/user")
+                .authenticated()
+                .anyRequest()
+                .permitAll()
+                .and()
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                ;
+        return http.build();
+    }
+
+
 }
