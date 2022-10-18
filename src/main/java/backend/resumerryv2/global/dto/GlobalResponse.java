@@ -19,8 +19,4 @@ public class GlobalResponse {
         return new GlobalResponse(STATUS_SUCCESS);
     }
 
-    public static GlobalResponse ofFailure() {
-        return new GlobalResponse(STATUS_FAILURE);
-    }
-
 }

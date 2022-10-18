@@ -3,16 +3,19 @@ package backend.resumerryv2.global.config.swagger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.core.AuthenticatedPrincipal;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.service.ApiInfo;
-import springfox.documentation.service.Server;
+import springfox.documentation.builders.ResponseBuilder;
+import springfox.documentation.service.*;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 import java.util.function.Predicate;
 
 @Configuration
@@ -23,8 +26,11 @@ public class SwaggerConfig {
 
     @Bean
     public Docket parseApi() {
+
         return new Docket(DocumentationType.OAS_30)
                 .ignoredParameterTypes(AuthenticatedPrincipal.class)
+                .globalResponses(HttpMethod.GET, globalResponse())
+                .securitySchemes(apiKeys())
                 .servers(serverInfo())
                 .useDefaultResponseMessages(false)
                 .select()
@@ -35,6 +41,22 @@ public class SwaggerConfig {
                 .apiInfo(apiInfo());
     }
 
+    private List<Response> globalResponse(){
+         return Arrays.asList(
+                new ResponseBuilder()
+                        .code("200")
+                        .description("OK")
+                        .build(),
+                new ResponseBuilder()
+                        .code("400")
+                        .description("Bad Request")
+                        .build(),
+                new ResponseBuilder()
+                        .code("500")
+                        .description("Internal Error")
+                        .build());
+    }
+
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 .title("Resumerry Swagger")
@@ -42,7 +64,6 @@ public class SwaggerConfig {
                 .version("1.0.0")
                 .build();
     }
-
     private Server serverInfo() {
         return new Server("",
                 swaggerPath,
@@ -50,6 +71,15 @@ public class SwaggerConfig {
                 Collections.emptyList(),
                 Collections.emptyList()
         );
+    }
+    private List<SecurityScheme> apiKeys() {
+
+        return Arrays.asList(
+                new ApiKey("Authorization", "Bearer", "cookies")
+                ,
+                new ApiKey("Validation", "Validation", "header")
+        );
+
     }
 
 }

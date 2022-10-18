@@ -1,0 +1,52 @@
+package backend.resumerryv2.security;
+
+import backend.resumerryv2.security.exception.CustomSecurityException;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
+import org.springframework.web.filter.OncePerRequestFilter;
+
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.Objects;
+
+@RequiredArgsConstructor
+@Component
+public class JwtAuthenticationFilter extends OncePerRequestFilter {
+
+    private final JwtProvider jwtProvider;
+
+    @Override
+    protected void doFilterInternal(
+            HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+            throws ServletException, IOException {
+        String token = AuthorizationExtractor.extract(request);
+        String path = request.getRequestURI();
+        try {
+            if (!Objects.isNull(token)) {
+                verifyTokenAccordingToPath(token, path);
+            }
+            filterChain.doFilter(request, response);
+        } catch (CustomSecurityException e) {
+            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().write(e.getMessage());
+        }
+    }
+
+    private void verifyTokenAccordingToPath(String token, String path)
+            throws CustomSecurityException {
+        jwtProvider.verify(token);
+        Authentication authentication = jwtProvider.getAuthentication(token);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+    }
+
+}
+
+
