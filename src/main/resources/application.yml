@@ -1,0 +1,50 @@
+spring:
+  security:
+    user:
+      name: gblee
+      password: 1234
+  sql:
+    init:
+      mode: always
+  datasource:
+    url: jdbc:mysql://resumerry.c1wuckwlvegg.ap-northeast-2.rds.amazonaws.com:3306/resumerry
+    username: admin
+    password: dkwneo12!
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    defer-datasource-initialization: false
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: sdhg12@ajou.ac.kr
+    password: rkskek986532*
+    properties:
+      mail:
+        debug: true
+        smtp:
+          starttls:
+            enable: true
+          auth: true
+---
+jwt:
+  secret: resumerry
+  expire-time: 14400000
+  admin-payload: admin-payload
+---
+swagger-ui:
+  path: http://localhost:8080
+---
+decorator:
+  datasource:
+    p6spy:
+      enable-logging: true # 운영환경: false
+
+
