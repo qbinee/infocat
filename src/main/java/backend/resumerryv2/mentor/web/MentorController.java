@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,12 +21,12 @@ public class MentorController {
     private final MentorService mentorService;
     @GetMapping("/posts")
     public ResponseEntity<?> getMentors(
-                                        @RequestParam String field,
-                                        @RequestParam String role,
-                                        @RequestParam String sorted,
+                                        @RequestParam(required = false) String field,
+                                        @RequestParam(required = false) String category,
+                                        @RequestParam(required = false) String sorted,
                                         Pageable pageable
     ){
-        FieldOfMentorList fieldOfMentorList = new FieldOfMentorList(field, role, sorted);
+        FieldOfMentorList fieldOfMentorList = new FieldOfMentorList(field, category, sorted);
         Page<MentorContent> mentors = mentorService.getMentorList(fieldOfMentorList, pageable);
         return ResponseEntity.ok().body(mentors);
     }

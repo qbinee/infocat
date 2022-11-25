@@ -7,7 +7,7 @@ import lombok.Data;
 @AllArgsConstructor
 public class FieldOfMentorList {
     private String field;
-    private String role;
+    private String category;
     private String sorted;
     // todo :: string -> int array로 변환
 }
