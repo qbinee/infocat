@@ -31,8 +31,8 @@ public class MentorCustomRepositoryImpl implements MentorCustomRepository {
 
         List<Mentor> mentors = jpaQueryFactory
                 .selectFrom(mentor)
-                .where(eqCategories(f.getCategoryList())
-                        ,eqField(f.getFieldList())
+                .where(eqCategories(f.getCategory())
+                        ,eqField(f.getField())
                         ,eqTitle(f.getTitle())
                 )
                 .offset(p.getOffset())
@@ -42,8 +42,8 @@ public class MentorCustomRepositoryImpl implements MentorCustomRepository {
         long counts = jpaQueryFactory
                 .select(mentor.count())
                 .from(mentor)
-                .where(eqCategories(f.getCategoryList())
-                        ,eqField(f.getFieldList())
+                .where(eqCategories(f.getCategory())
+                        ,eqField(f.getField())
                         ,eqTitle(f.getTitle())
                 )
                 .fetchOne();
