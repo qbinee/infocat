@@ -1,6 +1,5 @@
 package backend.resumerryv2.mentor.web;
 
-import backend.resumerryv2.mentor.domain.dto.FieldOfMentorList;
 import backend.resumerryv2.mentor.domain.dto.MentorContent;
 import backend.resumerryv2.mentor.service.MentorService;
 import lombok.RequiredArgsConstructor;
@@ -23,9 +22,10 @@ public class MentorController {
                                         @RequestParam(required = false) String field,
                                         @RequestParam(required = false) String category,
                                         @RequestParam(required = false) String sorted,
+                                        @RequestParam(required = false) String title,
                                         Pageable pageable
     ){
-        Page<MentorContent> mentors = mentorService.getMentorList(field, category, sorted, pageable);
+        Page<MentorContent> mentors = mentorService.getMentorList(field, category, sorted, title, pageable);
         return ResponseEntity.ok().body(mentors);
     }
 }

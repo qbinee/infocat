@@ -9,6 +9,7 @@ import backend.resumerryv2.mentor.service.enums.Role;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -26,27 +27,13 @@ import static backend.resumerryv2.mentor.domain.QMentor.mentor;
 public class MentorCustomRepositoryImpl implements MentorCustomRepository {
     private final JPAQueryFactory jpaQueryFactory;
     @Override
-    public Page<MentorContent> searchAll(Pageable p){
-        List<Mentor> mentors =  jpaQueryFactory
-                .selectFrom(mentor)
-                .offset(p.getOffset())
-                .limit(p.getPageSize())
-                .fetch();
-        long counts = jpaQueryFactory
-                .select(mentor.count())
-                .from(mentor)
-                .fetchOne();
-
-        return entityToDTO(mentors, p, counts);
-    }
-
-    @Override
-    public Page<MentorContent> searchOfFilter(FieldOfMentorList f, Pageable p) {
+    public Page<MentorContent> searchAll(FieldOfMentorList f, Pageable p) {
 
         List<Mentor> mentors = jpaQueryFactory
                 .selectFrom(mentor)
                 .where(eqCategories(f.getCategoryList())
                         ,eqField(f.getFieldList())
+                        ,eqTitle(f.getTitle())
                 )
                 .offset(p.getOffset())
                 .limit(p.getPageSize())
@@ -57,11 +44,15 @@ public class MentorCustomRepositoryImpl implements MentorCustomRepository {
                 .from(mentor)
                 .where(eqCategories(f.getCategoryList())
                         ,eqField(f.getFieldList())
+                        ,eqTitle(f.getTitle())
                 )
                 .fetchOne();
 
         return entityToDTO(mentors, p, counts);
 
+    }
+    private BooleanExpression eqTitle(String title){
+        return title == null ? null : mentor.title.contains(title);
     }
 
     private BooleanBuilder eqCategories(List<Integer> categories){
@@ -94,12 +85,11 @@ public class MentorCustomRepositoryImpl implements MentorCustomRepository {
         }else if(sorted == "stars"){
             return new OrderSpecifier(Order.DESC, mentor.stars);
         }else if(sorted == "low_price"){
-            // todo: price 별로 바꾸기
-            return new OrderSpecifier(Order.DESC, mentor.id);
+            return new OrderSpecifier(Order.ASC, mentor.price);
         }else if(sorted == "high_price"){
-            return new OrderSpecifier(Order.DESC, mentor.id);
+            return new OrderSpecifier(Order.DESC, mentor.price);
         }
-        return new OrderSpecifier(Order.DESC, mentor.modifiedDate);
+        return new OrderSpecifier(Order.ASC, mentor.id);
     }
 
     private PageImpl entityToDTO(List<Mentor> mentors, Pageable p, long counts){

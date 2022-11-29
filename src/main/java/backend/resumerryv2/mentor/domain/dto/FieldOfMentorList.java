@@ -1,6 +1,5 @@
 package backend.resumerryv2.mentor.domain.dto;
 
-import backend.resumerryv2.mentor.web.annotation.Sorted;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -14,12 +13,13 @@ public class FieldOfMentorList {
     private String field;
     private String category;
     private String sorted;
+    private String title;
     public List<Integer> getFieldList(){
-        return convertStr2IntegerArray(field);
+        return field == null ? null : convertStr2IntegerArray(field);
     }
 
     public List<Integer> getCategoryList(){
-        return convertStr2IntegerArray(category);
+        return category == null ? null : convertStr2IntegerArray(category);
     }
 
     private static List<Integer> convertStr2IntegerArray(String s){
