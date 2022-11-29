@@ -1,6 +1,10 @@
 package backend.resumerryv2.mentor.domain;
 
+import backend.resumerryv2.global.converter.FieldCodeConverter;
+import backend.resumerryv2.global.converter.RoleCodeConverter;
 import backend.resumerryv2.global.entity.BaseEntity;
+import backend.resumerryv2.mentor.service.enums.Field;
+import backend.resumerryv2.mentor.service.enums.Role;
 import backend.resumerryv2.user.domain.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,7 +26,8 @@ public class Mentor extends BaseEntity {
 
     private String title;
 
-    private Integer role;
+    @Convert(converter = RoleCodeConverter.class)
+    private Role role;
 
     private Integer years;
 
@@ -32,8 +37,8 @@ public class Mentor extends BaseEntity {
 
     private Integer views;
 
-    private Integer field;
+    @Convert(converter = FieldCodeConverter.class)
+    private Field field;
 
     private Integer price;
-
 }
