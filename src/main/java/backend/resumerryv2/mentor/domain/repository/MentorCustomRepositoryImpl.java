@@ -99,6 +99,7 @@ public class MentorCustomRepositoryImpl implements MentorCustomRepository {
                 , Role.of(m.getRole().getCode()).getName()
                 , Company.of(m.getCompany().intValue()).getName()
                 , m.getStars()
+                , m.getYears()
                 , "test image") )
                 .collect(Collectors.toList());
         return new PageImpl<>(contents, p, counts);
