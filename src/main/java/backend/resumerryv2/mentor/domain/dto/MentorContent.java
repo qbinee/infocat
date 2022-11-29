@@ -10,6 +10,7 @@ public class MentorContent {
    private String title;
    private String role;
    private String company;
-   private float stars;
+   private Float stars;
+   private Integer years;
    private String image;
 }
