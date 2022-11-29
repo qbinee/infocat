@@ -8,12 +8,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @AllArgsConstructor
 @Service
 public class MentorService {
     private final MentorCustomRepository mentorCustomRepository;
 
-    public Page<MentorContent> getMentorList(String field, String category, String sorted, String title, Pageable pageable) {
+    public Page<MentorContent> getMentorList(List<Integer> field, List<Integer> category, String sorted, String title, Pageable pageable) {
         FieldOfMentorList fieldOfMentorList = new FieldOfMentorList(field, category, sorted, title);
         return mentorCustomRepository.searchAll(fieldOfMentorList, pageable);
     }
