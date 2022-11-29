@@ -13,7 +13,9 @@ import org.springframework.stereotype.Service;
 public class MentorService {
     private final MentorCustomRepository mentorCustomRepository;
 
-    public Page<MentorContent> getMentorList(FieldOfMentorList fieldOfMentorList, Pageable pageable) {
-        return mentorCustomRepository.searchAll(fieldOfMentorList, pageable);
+    public Page<MentorContent> getMentorList(String field, String category, String sorted, Pageable pageable) {
+        FieldOfMentorList fieldOfMentorList = new FieldOfMentorList(field, category, sorted);
+        return mentorCustomRepository.searchOfFilter(fieldOfMentorList, pageable);
     }
+
 }

@@ -7,5 +7,6 @@ import org.springframework.data.domain.Pageable;
 
 
 public interface MentorCustomRepository {
-    Page<MentorContent> searchAll(FieldOfMentorList f, Pageable p);
+    Page<MentorContent> searchAll(Pageable p);
+    Page<MentorContent> searchOfFilter(FieldOfMentorList f, Pageable p);
 }
