@@ -1,3 +1,4 @@
+/* Licensed under InfoCat */
 package backend.resumerryv2.user.web;
 
 import lombok.RequiredArgsConstructor;
@@ -11,8 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/users")
 public class UserController {
 
-    @PostMapping("/sample")
-    public ResponseEntity<?> test(){
-        return ResponseEntity.ok().build();
-    }
+  @PostMapping("/sample")
+  public ResponseEntity<?> test() {
+    return ResponseEntity.ok().build();
+  }
 }

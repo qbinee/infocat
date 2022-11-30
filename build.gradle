@@ -9,6 +9,8 @@ plugins {
 	id 'io.spring.dependency-management' version '1.0.14.RELEASE'
 	//querydsl 추가
 	id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
+	// spotless 추가
+	id "com.diffplug.gradle.spotless" version "3.28.1"
 	id 'java'
 }
 
@@ -55,7 +57,7 @@ dependencies {
 def querydslDir = "$projectDir/build/generated/querydsl"
 querydsl {
 	jpa = true
- querydslSourcesDir = querydslDir
+querydslSourcesDir = querydslDir
 }
 sourceSets {
 	main.java.srcDir querydslDir
@@ -70,4 +72,23 @@ compileQuerydsl {
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+// spotless 추가 시작
+spotless {
+	java {
+		removeUnusedImports()
+		trimTrailingWhitespace()
+		indentWithTabs()
+		endWithNewline()
+		licenseHeader '/* Licensed under InfoCat */'
+		importOrder 'java', 'javax', 'org', 'com', 'com.diffplug', ''
+		googleJavaFormat()
+	}
+	format 'misc', {
+		target '**/*.gradle', '**/*.md', '**/.gitignore'
+		trimTrailingWhitespace()
+		indentWithTabs()
+		endWithNewline()
+	}
 }
