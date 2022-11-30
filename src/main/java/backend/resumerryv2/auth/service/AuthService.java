@@ -1,3 +1,4 @@
+/* Licensed under InfoCat */
 package backend.resumerryv2.auth.service;
 
 import backend.resumerryv2.auth.domain.dto.SignUpRequest;
@@ -13,19 +14,20 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class AuthService {
 
-    private final UserRepository userRepository;
+  private final UserRepository userRepository;
 
-    public void signUp(SignUpRequest signUpRequest){
-        User user = User.builder()
-                .email(signUpRequest.getEmail())
-                .nickname(signUpRequest.getNickname())
-                .password(signUpRequest.getPassword())
-                .build();
-        userRepository.save(user);
-    }
+  public void signUp(SignUpRequest signUpRequest) {
+    User user =
+        User.builder()
+            .email(signUpRequest.getEmail())
+            .nickname(signUpRequest.getNickname())
+            .password(signUpRequest.getPassword())
+            .build();
+    userRepository.save(user);
+  }
 
-    public void checkDuplicatedUser(String email){
-        if(!userRepository.findByEmail(email).isPresent())
-            throw new CustomException(HttpStatus.FORBIDDEN, ErrorType.DUPLICATED_USER);
-    }
+  public void checkDuplicatedUser(String email) {
+    if (!userRepository.findByEmail(email).isPresent())
+      throw new CustomException(HttpStatus.FORBIDDEN, ErrorType.DUPLICATED_USER);
+  }
 }
