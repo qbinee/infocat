@@ -75,15 +75,15 @@ public class MentorCustomRepositoryImpl implements MentorCustomRepository {
   }
 
   private OrderSpecifier getSorted(String sorted) {
-    if (sorted == "recent") {
+    if (sorted.equals("recent")) {
       return new OrderSpecifier(Order.DESC, mentor.modifiedDate);
-    } else if (sorted == "popular") {
+    } else if (sorted.equals("popular")) {
       return new OrderSpecifier(Order.DESC, mentor.views);
-    } else if (sorted == "stars") {
+    } else if (sorted.equals("stars")) {
       return new OrderSpecifier(Order.DESC, mentor.stars);
-    } else if (sorted == "low_price") {
+    } else if (sorted.equals("low_price")) {
       return new OrderSpecifier(Order.ASC, mentor.price);
-    } else if (sorted == "high_price") {
+    } else if (sorted.equals("high_price")) {
       return new OrderSpecifier(Order.DESC, mentor.price);
     }
     return new OrderSpecifier(Order.ASC, mentor.id);
