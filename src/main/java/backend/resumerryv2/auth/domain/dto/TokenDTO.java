@@ -6,18 +6,19 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 public class TokenDTO {
-  @Data
-  @AllArgsConstructor
-  public static final class Request {
-    private String email;
-    private String password;
-  }
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static final class Request {
+        private String email;
+        private String password;
+    }
 
-  @Data
-  @Builder
-  @NoArgsConstructor
-  @AllArgsConstructor
-  public static final class Response {
-    private String accessToken;
-  }
+    @Data
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static final class Response {
+        private String validationToken;
+    }
 }

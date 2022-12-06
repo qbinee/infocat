@@ -46,7 +46,7 @@ public class AuthService {
         emailService.deleteValidationCode(e);
     }
 
-    private void checkDuplicatedUser(String email){
+    public void checkDuplicatedUser(String email){
         if(userRepository.findByEmail(email).isPresent())
             throw new CustomException(HttpStatus.FORBIDDEN, ErrorType.DUPLICATED_USER);
     }
