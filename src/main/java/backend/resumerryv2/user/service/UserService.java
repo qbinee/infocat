@@ -16,19 +16,11 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    private User getUser(String email) {
+    public User getUser(String email) {
         Optional<User> user = userRepository.findByEmail(email);
         if (user.isEmpty()){
             throw new CustomException(HttpStatus.NOT_FOUND, ErrorType.INVALID_USER);
         }
         return user.get();
     }
-
-    public Boolean checkEmailAndPassword(String email, String password){
-        if(!getUser(email).getPassword().equals(password)){
-            throw new CustomException(HttpStatus.UNAUTHORIZED, ErrorType.UNAUTHORIZED);
-        }
-        return true;
-    }
-
 }

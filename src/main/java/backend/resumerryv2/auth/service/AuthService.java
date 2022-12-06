@@ -5,6 +5,7 @@ import backend.resumerryv2.auth.web.dto.LoginResponse;
 import backend.resumerryv2.auth.web.dto.SignUpRequest;
 import backend.resumerryv2.exception.CustomException;
 import backend.resumerryv2.exception.ErrorType;
+import backend.resumerryv2.mentor.service.MentorService;
 import backend.resumerryv2.security.JwtProvider;
 import backend.resumerryv2.security.TokenType;
 import backend.resumerryv2.user.domain.User;
@@ -23,12 +24,14 @@ public class AuthService {
     private final UserRepository userRepository;
     private final EmailService emailService;
 
+    private final MentorService mentorService;
+
     private final UserService userService;
     private final JwtProvider jwtProvider;
 
     public LoginResponse login(String email, String password){
-        userService.checkEmailAndPassword(email, password);
-        return new LoginResponse(true);
+        User user = checkEmailAndPassword(email, password);
+        return new LoginResponse(mentorService.getUserIsMentor(user));
     }
 
     public Cookie getAccessTokenCookie(String email){
@@ -52,7 +55,15 @@ public class AuthService {
     }
 
     public void checkDuplicatedUser(String email){
-        if(userRepository.findByEmail(email).isPresent())
+        if(userService.getUser(email) instanceof User)
             throw new CustomException(HttpStatus.FORBIDDEN, ErrorType.DUPLICATED_USER);
+    }
+
+    private User checkEmailAndPassword(String email, String password){
+        User user = userService.getUser(email);
+        if(!user.getPassword().equals(password)){
+            throw new CustomException(HttpStatus.UNAUTHORIZED, ErrorType.UNAUTHORIZED);
+        }
+        return user;
     }
 }
