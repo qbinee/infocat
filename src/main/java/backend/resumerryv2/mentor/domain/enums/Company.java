@@ -1,12 +1,13 @@
 /* Licensed under InfoCat */
 package backend.resumerryv2.mentor.domain.enums;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
 import java.util.Collections;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
