@@ -1,8 +1,9 @@
 package backend.resumerryv2.auth.web;
 
-import backend.resumerryv2.auth.domain.dto.SignUpRequest;
 import backend.resumerryv2.auth.domain.dto.TokenDTO;
 import backend.resumerryv2.auth.service.AuthService;
+import backend.resumerryv2.auth.web.dto.LoginResponse;
+import backend.resumerryv2.auth.web.dto.SignUpRequest;
 import backend.resumerryv2.exception.validation.ValidationSequence;
 import backend.resumerryv2.global.dto.GlobalResponse;
 import lombok.RequiredArgsConstructor;
@@ -38,12 +39,13 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<GlobalResponse> login(
+    public ResponseEntity<LoginResponse> login(
             @Validated(ValidationSequence.class) @RequestBody TokenDTO.Request request,
             HttpServletResponse response
     ){
-        response.addCookie(authService.login(request.getEmail(), request.getPassword()));
-        return ResponseEntity.ok(GlobalResponse.ofSuccess());
+        LoginResponse res = authService.login(request.getEmail(), request.getPassword());
+        response.addCookie(authService.getAccessTokenCookie(request.getEmail()));
+        return ResponseEntity.ok(res);
     }
 
 

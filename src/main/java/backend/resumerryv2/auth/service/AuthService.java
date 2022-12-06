@@ -1,7 +1,8 @@
 package backend.resumerryv2.auth.service;
 
 import backend.resumerryv2.auth.domain.EmailValidation;
-import backend.resumerryv2.auth.domain.dto.SignUpRequest;
+import backend.resumerryv2.auth.web.dto.LoginResponse;
+import backend.resumerryv2.auth.web.dto.SignUpRequest;
 import backend.resumerryv2.exception.CustomException;
 import backend.resumerryv2.exception.ErrorType;
 import backend.resumerryv2.security.JwtProvider;
@@ -25,8 +26,12 @@ public class AuthService {
     private final UserService userService;
     private final JwtProvider jwtProvider;
 
-    public Cookie login(String email, String password){
+    public LoginResponse login(String email, String password){
         userService.checkEmailAndPassword(email, password);
+        return new LoginResponse(true);
+    }
+
+    public Cookie getAccessTokenCookie(String email){
         String accessToken = jwtProvider.generateToken(email, TokenType.ACCESS_TOKEN);
         Cookie cookie = new Cookie("AccessToken", accessToken);
         cookie.setHttpOnly(true);
