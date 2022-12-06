@@ -21,4 +21,6 @@ public class TokenDTO {
     public static final class Response {
         private String validationToken;
     }
+
+
 }
