@@ -1,8 +1,6 @@
 /* Licensed under InfoCat */
 package backend.resumerryv2.mentor.domain.repository;
 
-import static backend.resumerryv2.mentor.domain.QMentor.mentor;
-
 import backend.resumerryv2.mentor.domain.Mentor;
 import backend.resumerryv2.mentor.domain.dto.MentorContent;
 import backend.resumerryv2.mentor.domain.enums.Company;
@@ -14,13 +12,16 @@ import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import java.util.List;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static backend.resumerryv2.mentor.domain.QMentor.mentor;
 
 @RequiredArgsConstructor
 @Repository

@@ -1,12 +1,13 @@
 /* Licensed under InfoCat */
-package backend.resumerryv2.auth.domain.dto;
+package backend.resumerryv2.auth.web.dto;
+
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Email;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
-import org.springframework.validation.annotation.Validated;
 
 @Data
 @RequiredArgsConstructor

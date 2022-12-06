@@ -1,9 +1,10 @@
 /* Licensed under InfoCat */
 package backend.resumerryv2.mentor.web.dto;
 
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+
+import java.util.List;
 
 @Data
 @AllArgsConstructor
