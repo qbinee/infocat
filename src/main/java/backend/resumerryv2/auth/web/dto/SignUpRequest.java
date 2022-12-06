@@ -1,12 +1,13 @@
 /* Licensed under InfoCat */
-package backend.resumerryv2.auth.domain.dto;
+package backend.resumerryv2.auth.web.dto;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 
 @Getter
 @Setter

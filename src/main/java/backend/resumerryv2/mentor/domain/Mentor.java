@@ -7,10 +7,11 @@ import backend.resumerryv2.global.entity.BaseEntity;
 import backend.resumerryv2.mentor.domain.enums.Field;
 import backend.resumerryv2.mentor.domain.enums.Role;
 import backend.resumerryv2.user.domain.User;
-import javax.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.lang.Nullable;
+
+import javax.persistence.*;
 
 @Getter
 @NoArgsConstructor

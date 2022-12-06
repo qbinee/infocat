@@ -1,10 +1,11 @@
 /* Licensed under InfoCat */
 package backend.resumerryv2.exception;
 
-import java.util.HashMap;
-import java.util.Map;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Getter
 @RequiredArgsConstructor
