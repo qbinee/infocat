@@ -40,7 +40,7 @@ public class SecurityConfiguration {
                 .authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS, "/**/*")
                 .permitAll()
-                .antMatchers("/auth/login")
+                .antMatchers("/api/v1/auth/login, /api/v1/mentoring/posts")
                 .permitAll()
                 .antMatchers("/user")
                 .authenticated()
