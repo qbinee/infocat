@@ -16,7 +16,7 @@ import javax.validation.constraints.Email;
 
 
 @RestController
-@RequestMapping("/email")
+@RequestMapping("/api/v1/email")
 @RequiredArgsConstructor
 @Validated
 public class EmailController {
