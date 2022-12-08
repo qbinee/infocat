@@ -16,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.Cookie;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -55,15 +56,20 @@ public class AuthService {
     }
 
     public void checkDuplicatedUser(String email){
-        if(userService.getUser(email) instanceof User)
+        Optional<User> user = userService.getUser(email);
+        if(user.isPresent())
             throw new CustomException(HttpStatus.FORBIDDEN, ErrorType.DUPLICATED_USER);
     }
 
     private User checkEmailAndPassword(String email, String password){
-        User user = userService.getUser(email);
-        if(!user.getPassword().equals(password)){
+        Optional<User> user = userService.getUser(email);
+        if (user.isEmpty()){
+            throw new CustomException(HttpStatus.NOT_FOUND, ErrorType.INVALID_USER);
+        }
+
+        if(!user.get().getPassword().equals(password)){
             throw new CustomException(HttpStatus.UNAUTHORIZED, ErrorType.UNAUTHORIZED);
         }
-        return user;
+        return user.get();
     }
 }
