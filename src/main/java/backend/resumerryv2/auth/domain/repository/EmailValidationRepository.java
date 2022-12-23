@@ -10,7 +10,7 @@ public interface EmailValidationRepository extends JpaRepository<EmailValidation
     @Override
     <S extends EmailValidation> S save(S entity);
 
-    Optional<EmailValidation> findFirstByEmailOrderByExpireTime(String email);
+    Optional<EmailValidation> findFirstByEmailOrderByExpireTimeDesc(String email);
     @Override
     void delete(EmailValidation emailValidation);
 }

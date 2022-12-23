@@ -18,7 +18,7 @@ public enum Field {
   INTERVIEW(4, "면접"),
   CODING_TEST(5, "코딩 테스트"),
   CAREER_CONSULTING(6, "커리어 상담");
-  private int code;
+  private Integer code;
   private String name;
 
   private static final Map<Integer, String> CODE_MAP =

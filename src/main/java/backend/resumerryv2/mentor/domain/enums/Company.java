@@ -25,7 +25,7 @@ public enum Company {
   f회사(110, "f회사"),
   ;
 
-  private final int code;
+  private final Integer code;
   private final String name;
 
   private static final Map<Integer, String> CODE_MAP =
