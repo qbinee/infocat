@@ -44,7 +44,7 @@ public class EmailService {
         /**
          * 이메일 / validation code / expiretime 확인
          */
-        Optional<EmailValidation> emailValidation = emailValidationRepository.findFirstByEmailOrderByExpireTime(email);
+        Optional<EmailValidation> emailValidation = emailValidationRepository.findFirstByEmailOrderByExpireTimeDesc(email);
         Integer dbValidationCode = emailValidation.get().getValidationCode();
         LocalDateTime dbExpireTime = emailValidation.get().getExpireTime();
 
