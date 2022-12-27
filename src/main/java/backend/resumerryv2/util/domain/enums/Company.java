@@ -27,7 +27,7 @@ public enum Company {
   d회사(108, "d회사", "d.com"),
   e회사(109, "e회사", "e.com"),
   f회사(110, "f회사", "f.com"),
-  EMPTY(999, "존재하지 않습니다", "empty.com")
+  EMPTY(999, "새회사", "empty.com")
   ;
 
   private final Integer code;
