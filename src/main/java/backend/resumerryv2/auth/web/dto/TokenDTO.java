@@ -1,9 +1,6 @@
-package backend.resumerryv2.auth.domain.dto;
+package backend.resumerryv2.auth.web.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 public class TokenDTO {
     @Data
@@ -21,6 +18,5 @@ public class TokenDTO {
     public static final class Response {
         private String validationToken;
     }
-
 
 }

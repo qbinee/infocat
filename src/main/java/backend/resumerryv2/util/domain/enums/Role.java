@@ -1,5 +1,5 @@
 /* Licensed under InfoCat */
-package backend.resumerryv2.mentor.domain.enums;
+package backend.resumerryv2.util.domain.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -26,7 +26,7 @@ public enum Role {
       Collections.unmodifiableMap(
           Stream.of(values()).collect(Collectors.toMap(Role::getCode, Role::name)));
 
-  public static Role of(final int code) {
+  public static Role of(Integer code) {
     return Role.valueOf(CODE_MAP.get(code));
   }
 }

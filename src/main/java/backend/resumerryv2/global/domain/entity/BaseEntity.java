@@ -1,5 +1,5 @@
 /* Licensed under InfoCat */
-package backend.resumerryv2.global.entity;
+package backend.resumerryv2.global.domain.entity;
 
 import backend.resumerryv2.global.converter.BooleanConverter;
 import lombok.Getter;
@@ -19,12 +19,10 @@ public abstract class BaseEntity {
 
   @LastModifiedDate private LocalDateTime modifiedDate;
 
-  @Convert(converter = BooleanConverter.class)
-  @Column
-  private Boolean isDelete;
+  @Convert(converter = BooleanConverter.class) private Boolean isDelete;
 
   @PrePersist
   public void prePersist() {
-    this.isDelete = false;
+    this.isDelete = this.isDelete == null ? false : this.isDelete;
   }
 }

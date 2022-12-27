@@ -1,5 +1,5 @@
 /* Licensed under InfoCat */
-package backend.resumerryv2.mentor.domain.enums;
+package backend.resumerryv2.util.domain.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,7 +25,7 @@ public enum Field {
       Collections.unmodifiableMap(
           Stream.of(values()).collect(Collectors.toMap(Field::getCode, Field::name)));
 
-  public static Field of(final int code) {
+  public static Field of(Integer code) {
     return Field.valueOf(CODE_MAP.get(code));
   }
 }

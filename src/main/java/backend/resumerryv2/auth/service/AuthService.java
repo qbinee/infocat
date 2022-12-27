@@ -1,6 +1,8 @@
 package backend.resumerryv2.auth.service;
 
 import backend.resumerryv2.auth.domain.EmailValidation;
+import backend.resumerryv2.auth.web.dto.CompanyEmailRequest;
+import backend.resumerryv2.auth.web.dto.CompanyEmailResponse;
 import backend.resumerryv2.auth.web.dto.LoginResponse;
 import backend.resumerryv2.auth.web.dto.SignUpRequest;
 import backend.resumerryv2.exception.CustomException;
@@ -11,6 +13,7 @@ import backend.resumerryv2.security.TokenType;
 import backend.resumerryv2.user.domain.User;
 import backend.resumerryv2.user.domain.repository.UserRepository;
 import backend.resumerryv2.user.service.UserService;
+import backend.resumerryv2.util.domain.enums.Company;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -59,6 +62,11 @@ public class AuthService {
         Optional<User> user = userService.getUser(email);
         if(user.isPresent())
             throw new CustomException(HttpStatus.FORBIDDEN, ErrorType.DUPLICATED_USER);
+    }
+
+    public CompanyEmailResponse certificatedEmail(CompanyEmailRequest request){
+        String domainName = request.getEmail().split("@")[1];
+        return new CompanyEmailResponse(Company.of(domainName).getName());
     }
 
     private User checkEmailAndPassword(String email, String password){

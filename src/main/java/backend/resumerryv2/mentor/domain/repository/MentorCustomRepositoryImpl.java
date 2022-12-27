@@ -3,9 +3,9 @@ package backend.resumerryv2.mentor.domain.repository;
 
 import backend.resumerryv2.mentor.domain.Mentor;
 import backend.resumerryv2.mentor.domain.dto.MentorContent;
-import backend.resumerryv2.mentor.domain.enums.Company;
-import backend.resumerryv2.mentor.domain.enums.Field;
-import backend.resumerryv2.mentor.domain.enums.Role;
+import backend.resumerryv2.util.domain.enums.Company;
+import backend.resumerryv2.util.domain.enums.Field;
+import backend.resumerryv2.util.domain.enums.Role;
 import backend.resumerryv2.mentor.web.dto.FieldOfMentorList;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Order;
@@ -30,6 +30,9 @@ public class MentorCustomRepositoryImpl implements MentorCustomRepository {
 
   @Override
   public Page<MentorContent> searchAll(FieldOfMentorList f, Pageable p) {
+    /** 수정
+     *  field, title, category 각 다른 테이블에서 관리 예정
+     */
 
     List<Mentor> mentors =
         jpaQueryFactory
@@ -76,15 +79,15 @@ public class MentorCustomRepositoryImpl implements MentorCustomRepository {
   }
 
   private OrderSpecifier getSorted(String sorted) {
-    if (sorted.equals("recent")) {
+    if (sorted == "recent") {
       return new OrderSpecifier(Order.DESC, mentor.modifiedDate);
-    } else if (sorted.equals("popular")) {
+    } else if (sorted == "popular") {
       return new OrderSpecifier(Order.DESC, mentor.views);
-    } else if (sorted.equals("stars")) {
+    } else if (sorted == "stars") {
       return new OrderSpecifier(Order.DESC, mentor.stars);
-    } else if (sorted.equals("low_price")) {
+    } else if (sorted == "low_price") {
       return new OrderSpecifier(Order.ASC, mentor.price);
-    } else if (sorted.equals("high_price")) {
+    } else if (sorted == "high_price") {
       return new OrderSpecifier(Order.DESC, mentor.price);
     }
     return new OrderSpecifier(Order.ASC, mentor.id);
@@ -99,7 +102,7 @@ public class MentorCustomRepositoryImpl implements MentorCustomRepository {
                         m.getId(),
                         m.getTitle(),
                         Role.of(m.getRole().getCode()).getName(),
-                        Company.of(m.getCompany().intValue()).getName(),
+                        Company.of(m.getCompany().getCode()).getName(),
                         m.getStars(),
                         m.getYears(),
                         "test image"))
