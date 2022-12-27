@@ -1,11 +1,9 @@
 package backend.resumerryv2.auth.web;
 
-import backend.resumerryv2.auth.domain.dto.TokenDTO;
+import backend.resumerryv2.auth.web.dto.*;
 import backend.resumerryv2.auth.service.AuthService;
-import backend.resumerryv2.auth.web.dto.LoginResponse;
-import backend.resumerryv2.auth.web.dto.SignUpRequest;
 import backend.resumerryv2.exception.validation.ValidationSequence;
-import backend.resumerryv2.global.dto.GlobalResponse;
+import backend.resumerryv2.global.domain.dto.GlobalResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -48,5 +46,11 @@ public class AuthController {
         return ResponseEntity.ok(res);
     }
 
+    @PostMapping("/email")
+    public ResponseEntity<CompanyEmailResponse> certifiedCompanyEmail(
+            @Validated(ValidationSequence.class) @RequestBody CompanyEmailRequest email
+            ){
+        return ResponseEntity.ok(authService.certificatedEmail(email));
+    }
 
 }

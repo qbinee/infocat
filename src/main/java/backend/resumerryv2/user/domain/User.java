@@ -1,16 +1,15 @@
 /* Licensed under InfoCat */
 package backend.resumerryv2.user.domain;
 
-import backend.resumerryv2.global.entity.BaseEntity;
+import backend.resumerryv2.global.domain.entity.BaseEntity;
+import backend.resumerryv2.mentor.domain.ClassSession;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.lang.Nullable;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.Collection;
 
 @Getter
 @NoArgsConstructor
@@ -30,7 +29,7 @@ public class User extends BaseEntity {
 
   @Nullable private Enum<UserCategory> category;
 
-  @Nullable private String introduce;
+  @Nullable @Column(length = 200) private String introduce;
 
   @Nullable private String imageSrc;
 

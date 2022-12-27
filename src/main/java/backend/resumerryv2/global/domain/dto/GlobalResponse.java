@@ -1,5 +1,5 @@
 /* Licensed under InfoCat */
-package backend.resumerryv2.global.dto;
+package backend.resumerryv2.global.domain.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
