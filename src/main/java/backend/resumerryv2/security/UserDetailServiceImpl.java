@@ -26,28 +26,11 @@ public class UserDetailServiceImpl implements UserDetailsService {
 
   @Override
   public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-    Optional<User> user = userRepository.findByEmail(email);
-    if (user == null) {
-      log.error("User not found in the database {}", email);
-      throw new UsernameNotFoundException("User not found in the database");
-    } else {
-      log.info("User found in the database: {}", email);
-    }
+    User user = userRepository.findByEmail(email)
+            .orElseThrow(() -> new UsernameNotFoundException("Could not found database"));
 
-    Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
+    log.info("User found in the database");
     return new CustomUserDetails(email);
   }
 
-  public User saveUser(User user) {
-    log.info("Saving new user {} to the db", user.getNickname());
-    return userRepository.save(user);
-  }
-
-  public Optional<User> getUser(String email) {
-    return userRepository.findByEmail(email);
-  }
-
-  public List<User> getUsers() {
-    return userRepository.findAll();
-  }
 }
