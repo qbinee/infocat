@@ -2,14 +2,13 @@
 package backend.resumerryv2.mentor.domain;
 
 import backend.resumerryv2.global.converter.CompanyCodeConverter;
-import backend.resumerryv2.global.converter.FieldCodeConverter;
-import backend.resumerryv2.global.converter.RoleCodeConverter;
 import backend.resumerryv2.global.domain.entity.BaseEntity;
+import backend.resumerryv2.user.domain.User;
 import backend.resumerryv2.util.domain.entity.Category;
 import backend.resumerryv2.util.domain.enums.Company;
 import backend.resumerryv2.util.domain.enums.Field;
 import backend.resumerryv2.util.domain.enums.Role;
-import backend.resumerryv2.user.domain.User;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.lang.Nullable;
@@ -22,49 +21,80 @@ import java.util.Collection;
 @NoArgsConstructor
 @Entity
 public class Mentor extends BaseEntity {
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-  @OneToOne
-  @JoinColumn(name = "user_id")
-  private User user;
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
-  private String title;
+    @Deprecated
+    @Nullable
+    private String title;
 
-  @Convert(converter = RoleCodeConverter.class)
-  private Role role;
+    @Deprecated
+    @Nullable
+    private Role role;
 
-  private Integer years;
+    private Integer years;
 
-  @Convert(converter = CompanyCodeConverter.class)
-  private Company company;
+    @Convert(converter = CompanyCodeConverter.class)
+    private Company company;
 
-  @Nullable private Float stars;
+    @Deprecated
+    @Nullable
+    private Float stars;
 
-  private Integer views;
+    @Deprecated
+    @Nullable
+    private Integer views;
 
-  @Convert(converter = FieldCodeConverter.class)
-  private Field field;
+    @Deprecated
+    @Nullable
+    private Field field;
 
-  private Integer price;
+    @Deprecated
+    @Nullable
+    private Integer price;
 
-  @Column(length = 100) private String email;
+    @Column(length = 100)
+    private String email;
 
-  @NotNull @Column(length = 1000) private String career;
+    @NotNull
+    @Column(length = 1000)
+    private String career;
 
-  private String job;
+    private String job;
 
-  @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-  @JoinColumn(name = "mentor_id")
-  private Collection<MentorClass> classes;
+    private String name;
 
-  @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-  @JoinColumn(name = "mentor_id")
-  private Collection<backend.resumerryv2.util.domain.entity.Role> roles;
+    private String phoneNumber;
 
-  @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-  @JoinColumn(name = "mentor_id")
-  private Collection<Category> categories;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "mentor_id")
+    private Collection<MentorClass> classes;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "mentor_id")
+    private Collection<backend.resumerryv2.util.domain.entity.Role> roles;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "mentor_id")
+    private Collection<Category> categories;
+
+    @Builder
+    public Mentor(Long id, User user, Integer years, String email, String career, String job, Company company, String phoneNumber, String name) {
+        this.id = id;
+        this.user = user;
+        this.years = years;
+        this.email = email;
+        this.career = career;
+        this.job = job;
+        this.company = company;
+        this.phoneNumber = phoneNumber;
+        this.name = name;
+    }
 
 }
