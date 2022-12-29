@@ -1,5 +1,5 @@
 /* Licensed under InfoCat */
-package backend.resumerryv2.mentor.domain.repository;
+package backend.resumerryv2.mentor.domain.repository.custom;
 
 import backend.resumerryv2.mentor.domain.dto.MentorContent;
 import backend.resumerryv2.mentor.web.dto.FieldOfMentorList;
