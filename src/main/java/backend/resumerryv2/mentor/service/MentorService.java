@@ -14,15 +14,18 @@ import backend.resumerryv2.user.domain.User;
 import backend.resumerryv2.user.domain.repository.UserRepository;
 import backend.resumerryv2.util.domain.enums.Company;
 import lombok.AllArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @AllArgsConstructor
 @Service
+@Transactional
 public class MentorService {
     private final MentorCustomRepository mentorCustomRepository;
     private final UserRepository userRepository;
@@ -45,6 +48,7 @@ public class MentorService {
     public void createMentor(CustomUserDetails userDetails, MentorRequest mentorInfo) {
         User user = findUserByEmail(userDetails.getEmail());
         Company company = Company.of(mentorInfo.getEmail().split("@")[1]);
+
         Mentor mentor = Mentor.builder()
                 .years(mentorInfo.getYears())
                 .email(mentorInfo.getEmail())
@@ -56,7 +60,11 @@ public class MentorService {
                 .user(user)
                 .build();
 
-        mentorRepository.save(mentor);
+        try {
+            mentorRepository.save(mentor);
+        } catch (DataIntegrityViolationException e) {
+            throw new CustomException(HttpStatus.SERVICE_UNAVAILABLE, ErrorType.DUPLICATED_MENTOR);
+        }
 
     }
 
