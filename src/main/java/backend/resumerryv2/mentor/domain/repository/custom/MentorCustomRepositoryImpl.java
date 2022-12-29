@@ -1,15 +1,16 @@
 /* Licensed under InfoCat */
 package backend.resumerryv2.mentor.domain.repository.custom;
 
-import backend.resumerryv2.mentor.domain.Mentor;
 import backend.resumerryv2.mentor.domain.dto.MentorContent;
+import backend.resumerryv2.mentor.domain.dto.MentoringPost;
 import backend.resumerryv2.mentor.web.dto.FieldOfMentorList;
-import backend.resumerryv2.util.domain.enums.Company;
-import backend.resumerryv2.util.domain.enums.Field;
+import backend.resumerryv2.util.domain.enums.Category;
 import backend.resumerryv2.util.domain.enums.Role;
+import backend.resumerryv2.util.domain.repository.RoleRepository;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
+import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -19,38 +20,90 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import static backend.resumerryv2.mentor.domain.QMentor.mentor;
+import static backend.resumerryv2.mentor.domain.QMentorClass.mentorClass;
+import static backend.resumerryv2.util.domain.entity.QCategory.category1;
+import static backend.resumerryv2.util.domain.entity.QRole.role1;
 
 @RequiredArgsConstructor
 @Repository
 public class MentorCustomRepositoryImpl implements MentorCustomRepository {
   private final JPAQueryFactory jpaQueryFactory;
+  private final RoleRepository roleRepository;
 
   @Override
   public Page<MentorContent> searchAll(FieldOfMentorList f, Pageable p) {
-    /** 수정 field, title, category 각 다른 테이블에서 관리 예정 */
-    List<Mentor> mentors =
-        jpaQueryFactory
-            .selectFrom(mentor)
-            .where(eqCategories(f.getCategory()), eqField(f.getField()), eqTitle(f.getTitle()))
+
+    List<Long> roles = findClassIdByRole(f.getCategory());
+    List<Long> categories = findClassIdByCategory(f.getField());
+
+    List<Long> mentorClassIds = roles.stream()
+            .filter(
+                    old -> categories.stream().anyMatch(Predicate.isEqual(old)))
+            .collect(Collectors.toList());
+
+    List<MentorContent> mentorClassList =
+            jpaQueryFactory
+            .select(
+                    Projections.constructor(MentorContent.class,
+                            mentorClass.id,
+                            mentorClass.title,
+                            role1.role,
+                            mentor.company,
+                            mentor.years,
+                            mentor.years,
+                            mentorClass.image
+                    )
+            )
+                    .from(mentorClass)
+                    .leftJoin(mentor).on(mentor.id.eq(mentorClass.mentor.id))
+                    .leftJoin(role1).on(role1.mentorClass.id.eq(mentorClass.id))
+            .where(eqMentorClassIds(mentorClassIds),eqTitle(f.getTitle()))
             .offset(p.getOffset())
             .limit(p.getPageSize())
             .orderBy(getSorted(f.getSorted()))
             .fetch();
+
     long counts =
         jpaQueryFactory
-            .select(mentor.count())
-            .from(mentor)
-            .where(eqCategories(f.getCategory()), eqField(f.getField()), eqTitle(f.getTitle()))
+            .select(mentorClass.count())
+            .from(mentorClass)
+                .where(eqMentorClassIds(mentorClassIds), eqTitle(f.getTitle()))
             .fetchOne();
 
-    return entityToDTO(mentors, p, counts);
+    return entityToDTO(mentorClassList, p, counts);
+  }
+
+  private List<Long> findClassIdByRole(List<Integer> i){
+    return jpaQueryFactory
+            .select(role1.mentorClass.id).from(role1)
+            .where(eqRole(i))
+            .fetch();
+  }
+
+  private List<Long> findClassIdByCategory(List<Integer> i){
+    return jpaQueryFactory
+            .select(category1.mentorClass.id).from(category1)
+            .where(eqCategories(i))
+            .fetch();
   }
 
   private BooleanExpression eqTitle(String title) {
     return title == null ? null : mentor.title.contains(title);
+  }
+
+  private BooleanBuilder eqRole(List<Integer> roles) {
+    if (roles == null) {
+      return null;
+    }
+    BooleanBuilder builder = new BooleanBuilder();
+    for (Integer r : roles) {
+      builder.or(role1.role.eq(Role.of(r)));
+    }
+    return builder;
   }
 
   private BooleanBuilder eqCategories(List<Integer> categories) {
@@ -59,18 +112,18 @@ public class MentorCustomRepositoryImpl implements MentorCustomRepository {
     }
     BooleanBuilder builder = new BooleanBuilder();
     for (Integer c : categories) {
-      builder.or(mentor.role.eq(Role.of(c)));
+      builder.or(category1.category.eq(Category.of(c)));
     }
     return builder;
   }
 
-  private BooleanBuilder eqField(List<Integer> fields) {
-    if (fields == null) {
+  private BooleanBuilder eqMentorClassIds(List<Long> classIds) {
+    if (classIds == null) {
       return null;
     }
     BooleanBuilder builder = new BooleanBuilder();
-    for (Integer f : fields) {
-      builder.or(mentor.field.eq(Field.of(f)));
+    for (Long c : classIds) {
+      builder.or(mentorClass.id.eq(c));
     }
     return builder;
   }
@@ -90,20 +143,21 @@ public class MentorCustomRepositoryImpl implements MentorCustomRepository {
     return new OrderSpecifier(Order.ASC, mentor.id);
   }
 
-  private PageImpl entityToDTO(List<Mentor> mentors, Pageable p, long counts) {
-    List<MentorContent> contents =
-        mentors.stream()
+  private PageImpl entityToDTO(List<MentorContent> mentorClasses, Pageable p, long counts) {
+    List<MentoringPost> contents =
+        mentorClasses.stream()
             .map(
                 m ->
-                    new MentorContent(
+                    new MentoringPost(
                         m.getId(),
                         m.getTitle(),
-                        Role.of(m.getRole().getCode()).getName(),
-                        Company.of(m.getCompany().getCode()).getName(),
-                        m.getStars(),
+                        m.getRole().getName(),
+                        m.getCompany().getName(),
+                        0,
                         m.getYears(),
-                        "test image"))
+                        m.getImage()))
             .collect(Collectors.toList());
     return new PageImpl<>(contents, p, counts);
   }
+
 }
