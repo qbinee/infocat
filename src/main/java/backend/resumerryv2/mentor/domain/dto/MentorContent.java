@@ -1,17 +1,19 @@
 /* Licensed under InfoCat */
 package backend.resumerryv2.mentor.domain.dto;
 
+import backend.resumerryv2.util.domain.enums.Company;
+import backend.resumerryv2.util.domain.enums.Role;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
 @AllArgsConstructor
 public class MentorContent {
-  private long id;
+  private Long id;
   private String title;
-  private String role;
-  private String company;
-  private Float stars;
+  private Role role;
+  private Company company;
+  private Integer stars;
   private Integer years;
   private String image;
 }

@@ -1,55 +1,66 @@
+/* Licensed under InfoCat */
 package backend.resumerryv2.mentor.domain;
 
 import backend.resumerryv2.global.domain.entity.BaseEntity;
-import backend.resumerryv2.util.domain.entity.Category;
-import backend.resumerryv2.util.domain.entity.Role;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.Collection;
 
 @Getter
 @NoArgsConstructor
 @Entity
 public class MentorClass extends BaseEntity {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    @Column(name = "mentor_id") private Long mentorId;
+  @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  @JoinColumn(nullable = false)
+  private Mentor mentor;
 
-    @Column(length = 200) private String title;
+  @Column(length = 200, nullable = false)
+  private String title;
 
-    @Column(length = 200) private String shorts;
+  @Column(length = 200, nullable = false)
+  private String shorts;
 
-    @Column(length = 5000) private String contents;
+  @Column(length = 5000, nullable = false)
+  private String contents;
 
-    @Column(length = 1000) private String career;
+  @Column(length = 1000, nullable = false)
+  private String career;
 
-    private Integer price;
+  private String image;
 
-    private Integer viewCnt;
+  private Integer price;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "class_id")
-    private Collection<ClassWeekSchedule> classWeekSchedules;
+  private Integer viewCnt;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "class_id")
-    private Collection<ClassSession> classSessions;
+  @Builder
+  public MentorClass(
+      Long id,
+      Mentor mentor,
+      String title,
+      String shorts,
+      String contents,
+      String career,
+      String image,
+      Integer price) {
+    this.id = id;
+    this.mentor = mentor;
+    this.title = title;
+    this.shorts = shorts;
+    this.contents = contents;
+    this.career = career;
+    this.image = image;
+    this.price = price;
+  }
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "class_id")
-    private Collection<Role> roles;
-
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "class_id")
-    private Collection<Category> categories;
-
-    @Override
-    public void prePersist(){
-        super.prePersist();
-        this.viewCnt = this.viewCnt == null ? 0 : this.viewCnt;
-    }
-
+  @Override
+  public void prePersist() {
+    super.prePersist();
+    this.viewCnt = this.viewCnt == null ? 0 : this.viewCnt;
+  }
 }
