@@ -15,6 +15,7 @@ public enum ErrorType {
   COMPANY_EMAIL_REQUEST_ERROR("VALIDATION-ERR-04", "유효하지 않은 회사 이메일 REQUEST 입니다."),
 
   DUPLICATED_USER("USER-ERR-01", "이미 존재하는 유저입니다."),
+  DUPLICATED_MENTOR("USER-ERR-02", "이미 존재하는 멘토입니다."),
   INVALID_USER("USER-ERR-02", "존재하지 않은 유저입니다."),
   UNAUTHORIZED("AUTH-ERR-01", "인증에 실패하였습니다."),
   ;
