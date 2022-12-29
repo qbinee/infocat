@@ -1,6 +1,8 @@
+/* Licensed under InfoCat */
 package backend.resumerryv2.mentor.domain;
 
 import backend.resumerryv2.global.domain.entity.BaseEntity;
+import backend.resumerryv2.user.domain.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.lang.Nullable;
@@ -12,36 +14,42 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Entity
 public class ClassSession extends BaseEntity {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    @Column(name = "user_id") private Long userId;
+  @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  @JoinColumn(nullable = false)
+  private User user;
 
-    @Column(name = "class_id") private Long classId;
+  @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  @JoinColumn(nullable = false)
+  private MentorClass mentorClass;
 
-    private LocalDateTime bookingDay;
+  private LocalDateTime bookingDay;
 
-    @Nullable private String major;
+  @Nullable private String major;
 
-    private String selfIntroduce;
+  private String selfIntroduce;
 
-    private String preQuestion;
+  private String preQuestion;
 
-    @Nullable private String otherThings;
+  @Nullable private String otherThings;
 
-    private Boolean mentorChecked;
+  private Boolean mentorChecked;
 
-    private Boolean userDeprecated;
+  private Boolean userDeprecated;
 
-    @Column(length = 100) private String name;
+  @Column(length = 100)
+  private String name;
 
-    @Column(length = 20) private String phoneNumber;
+  @Column(length = 20)
+  private String phoneNumber;
 
-    @Override
-    public void prePersist(){
-        super.prePersist();
-        this.mentorChecked = this.mentorChecked == null ? false : this.mentorChecked;
-        this.userDeprecated = this.userDeprecated == null ? false : this.userDeprecated;
-    }
-
+  @Override
+  public void prePersist() {
+    super.prePersist();
+    this.mentorChecked = this.mentorChecked == null ? false : this.mentorChecked;
+    this.userDeprecated = this.userDeprecated == null ? false : this.userDeprecated;
+  }
 }

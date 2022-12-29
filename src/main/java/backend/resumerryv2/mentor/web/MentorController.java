@@ -5,6 +5,7 @@ import backend.resumerryv2.global.domain.dto.GlobalResponse;
 import backend.resumerryv2.mentor.domain.dto.MentorContent;
 import backend.resumerryv2.mentor.service.MentorService;
 import backend.resumerryv2.mentor.web.dto.MentorRequest;
+import backend.resumerryv2.mentor.web.dto.MentoringRequest;
 import backend.resumerryv2.security.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -34,11 +35,18 @@ public class MentorController {
   }
 
   @PostMapping("/mentor")
-  public ResponseEntity<?> createMentor(
-          @RequestBody MentorRequest mentorRequest,
-          @AuthenticationPrincipal CustomUserDetails userDetails
-          ){
+  public ResponseEntity<GlobalResponse> createMentor(
+      @RequestBody MentorRequest mentorRequest,
+      @AuthenticationPrincipal CustomUserDetails userDetails) {
     mentorService.createMentor(userDetails, mentorRequest);
+    return ResponseEntity.ok(GlobalResponse.ofSuccess());
+  }
+
+  @PostMapping("/mentoring")
+  public ResponseEntity<GlobalResponse> createMentoring(
+      @RequestBody MentoringRequest mentoringRequest,
+      @AuthenticationPrincipal CustomUserDetails userDetails) {
+    mentorService.createMentoringClass(userDetails, mentoringRequest);
     return ResponseEntity.ok(GlobalResponse.ofSuccess());
   }
 }
