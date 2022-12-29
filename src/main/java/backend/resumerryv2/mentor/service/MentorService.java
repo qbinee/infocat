@@ -3,16 +3,20 @@ package backend.resumerryv2.mentor.service;
 
 import backend.resumerryv2.exception.CustomException;
 import backend.resumerryv2.exception.ErrorType;
+import backend.resumerryv2.mentor.domain.ClassSession;
 import backend.resumerryv2.mentor.domain.ClassWeekSchedule;
 import backend.resumerryv2.mentor.domain.Mentor;
 import backend.resumerryv2.mentor.domain.MentorClass;
 import backend.resumerryv2.mentor.domain.dto.MentorContent;
+import backend.resumerryv2.mentor.domain.repository.ClassSessionRepository;
 import backend.resumerryv2.mentor.domain.repository.ClassWeekScheduleRepository;
+import backend.resumerryv2.mentor.domain.repository.MentorClassRepository;
 import backend.resumerryv2.mentor.domain.repository.MentorRepository;
 import backend.resumerryv2.mentor.domain.repository.custom.MentorCustomRepository;
 import backend.resumerryv2.mentor.web.dto.FieldOfMentorList;
 import backend.resumerryv2.mentor.web.dto.MentorRequest;
 import backend.resumerryv2.mentor.web.dto.MentoringRequest;
+import backend.resumerryv2.mentor.web.dto.MentoringSessionRequest;
 import backend.resumerryv2.security.CustomUserDetails;
 import backend.resumerryv2.user.domain.User;
 import backend.resumerryv2.user.domain.repository.UserRepository;
@@ -39,6 +43,8 @@ public class MentorService {
   private final UserRepository userRepository;
 
   private final MentorRepository mentorRepository;
+  private final MentorClassRepository mentorClassRepository;
+  private final ClassSessionRepository classSessionRepository;
 
   private final ClassWeekScheduleRepository classWeekScheduleRepository;
 
@@ -118,6 +124,27 @@ public class MentorService {
     roleRepository.save(role);
   }
 
+  public void createMentoringSession(CustomUserDetails userDetails, MentoringSessionRequest mentoringSessionRequest){
+    User user = findUserByEmail(userDetails.getEmail());
+    MentorClass mentorClass = findMentorClassbyId(mentoringSessionRequest.getMentoringId());
+
+    ClassSession classSession = ClassSession.builder()
+            .user(user)
+            .mentorClass(mentorClass)
+            .bookingDay(mentoringSessionRequest.getSchedule())
+            .major(mentoringSessionRequest.getMajor())
+            .selfIntroduce(mentoringSessionRequest.getIntroduce())
+            .preQuestion(mentoringSessionRequest.getQuestions())
+            .otherThings(mentoringSessionRequest.getWanted())
+            .name(mentoringSessionRequest.getName())
+            .phoneNumber(mentoringSessionRequest.getPhone())
+            .userCondition(mentoringSessionRequest.getUserCondition())
+            .build();
+
+
+    classSessionRepository.save(classSession);
+
+  }
   private List<backend.resumerryv2.util.domain.entity.Category> generateCategoryList(
       List<Integer> categories, Mentor mentor, MentorClass mentorClass) {
     return categories.stream()
@@ -141,5 +168,11 @@ public class MentorService {
     return userRepository
         .findByEmail(email)
         .orElseThrow(() -> new CustomException(HttpStatus.BAD_REQUEST, ErrorType.INVALID_USER));
+  }
+
+  private MentorClass findMentorClassbyId(Long id){
+    return  mentorClassRepository
+            .findById(id)
+            .orElseThrow(() -> new CustomException(HttpStatus.BAD_REQUEST, ErrorType.INVALID_MENTOR_CLASS));
   }
 }
