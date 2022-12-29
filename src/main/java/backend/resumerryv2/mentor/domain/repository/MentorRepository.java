@@ -5,7 +5,9 @@ import backend.resumerryv2.mentor.domain.Mentor;
 import backend.resumerryv2.user.domain.User;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 public interface MentorRepository extends JpaRepository<Mentor, Long> {
-  public Optional<Mentor> findMentorByUser(User user);
+  Optional<Mentor> findMentorByUser(User user);
+  Mentor save(Mentor mentor);
 }

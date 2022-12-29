@@ -1,5 +1,5 @@
 /* Licensed under InfoCat */
-package backend.resumerryv2.mentor.domain.enums;
+package backend.resumerryv2.util.domain.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,14 +18,14 @@ public enum Field {
   INTERVIEW(4, "면접"),
   CODING_TEST(5, "코딩 테스트"),
   CAREER_CONSULTING(6, "커리어 상담");
-  private int code;
+  private Integer code;
   private String name;
 
   private static final Map<Integer, String> CODE_MAP =
       Collections.unmodifiableMap(
           Stream.of(values()).collect(Collectors.toMap(Field::getCode, Field::name)));
 
-  public static Field of(final int code) {
+  public static Field of(Integer code) {
     return Field.valueOf(CODE_MAP.get(code));
   }
 }
