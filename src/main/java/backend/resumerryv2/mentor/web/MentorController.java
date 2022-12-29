@@ -1,6 +1,7 @@
 /* Licensed under InfoCat */
 package backend.resumerryv2.mentor.web;
 
+import backend.resumerryv2.global.domain.dto.GlobalResponse;
 import backend.resumerryv2.mentor.domain.dto.MentorContent;
 import backend.resumerryv2.mentor.service.MentorService;
 import backend.resumerryv2.mentor.web.dto.MentorRequest;
@@ -38,6 +39,6 @@ public class MentorController {
           @AuthenticationPrincipal CustomUserDetails userDetails
           ){
     mentorService.createMentor(userDetails, mentorRequest);
-    return ResponseEntity.ok().build();
+    return ResponseEntity.ok(GlobalResponse.ofSuccess());
   }
 }
