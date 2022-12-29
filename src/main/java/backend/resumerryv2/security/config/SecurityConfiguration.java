@@ -27,7 +27,6 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-
                 .httpBasic()
                 .and()
                 .cors()
@@ -40,9 +39,9 @@ public class SecurityConfiguration {
                 .authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS, "/**/*")
                 .permitAll()
-                .antMatchers("/auth/login")
+                .antMatchers("/api/v1/auth/login", "/api/v1/mentoring/posts")
                 .permitAll()
-                .antMatchers("/user")
+                .antMatchers("/api/v1/mentor", "/api/v1/mentoring", "/api/v1/mentoring/**")
                 .authenticated()
                 .anyRequest()
                 .permitAll()

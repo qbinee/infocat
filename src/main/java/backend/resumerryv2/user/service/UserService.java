@@ -16,11 +16,8 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    public User getUser(String email) {
+    public Optional<User> getUser(String email) {
         Optional<User> user = userRepository.findByEmail(email);
-        if (user.isEmpty()){
-            throw new CustomException(HttpStatus.NOT_FOUND, ErrorType.INVALID_USER);
-        }
-        return user.get();
+        return user;
     }
 }
