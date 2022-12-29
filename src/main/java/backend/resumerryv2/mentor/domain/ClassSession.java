@@ -3,6 +3,7 @@ package backend.resumerryv2.mentor.domain;
 
 import backend.resumerryv2.global.domain.entity.BaseEntity;
 import backend.resumerryv2.user.domain.User;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.lang.Nullable;
@@ -46,10 +47,27 @@ public class ClassSession extends BaseEntity {
   @Column(length = 20)
   private String phoneNumber;
 
+  private String userCondition;
+
   @Override
   public void prePersist() {
     super.prePersist();
     this.mentorChecked = this.mentorChecked == null ? false : this.mentorChecked;
     this.userDeprecated = this.userDeprecated == null ? false : this.userDeprecated;
+  }
+
+  @Builder
+  public ClassSession(Long id, User user, MentorClass mentorClass, LocalDateTime bookingDay, String major, String selfIntroduce, String preQuestion, String otherThings, String name, String phoneNumber, String userCondition){
+    this.id = id;
+    this.user = user;
+    this.mentorClass = mentorClass;
+    this.bookingDay = bookingDay;
+    this.major = major;
+    this.selfIntroduce = selfIntroduce;
+    this.preQuestion = preQuestion;
+    this.otherThings = otherThings;
+    this.name = name;
+    this.phoneNumber = phoneNumber;
+    this.userCondition = userCondition;
   }
 }
