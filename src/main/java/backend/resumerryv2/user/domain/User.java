@@ -17,7 +17,6 @@ import java.util.Collection;
 public class User extends BaseEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "user_id")
   private Long id;
 
   private String email;

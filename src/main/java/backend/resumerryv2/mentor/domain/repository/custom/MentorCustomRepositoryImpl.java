@@ -1,12 +1,12 @@
 /* Licensed under InfoCat */
-package backend.resumerryv2.mentor.domain.repository;
+package backend.resumerryv2.mentor.domain.repository.custom;
 
 import backend.resumerryv2.mentor.domain.Mentor;
 import backend.resumerryv2.mentor.domain.dto.MentorContent;
+import backend.resumerryv2.mentor.web.dto.FieldOfMentorList;
 import backend.resumerryv2.util.domain.enums.Company;
 import backend.resumerryv2.util.domain.enums.Field;
 import backend.resumerryv2.util.domain.enums.Role;
-import backend.resumerryv2.mentor.web.dto.FieldOfMentorList;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
@@ -30,10 +30,7 @@ public class MentorCustomRepositoryImpl implements MentorCustomRepository {
 
   @Override
   public Page<MentorContent> searchAll(FieldOfMentorList f, Pageable p) {
-    /** 수정
-     *  field, title, category 각 다른 테이블에서 관리 예정
-     */
-
+    /** 수정 field, title, category 각 다른 테이블에서 관리 예정 */
     List<Mentor> mentors =
         jpaQueryFactory
             .selectFrom(mentor)
