@@ -93,6 +93,7 @@ public class MentorService {
             .career(mentoringInfo.getCareer())
             .image(mentoringInfo.getImage())
             .price(mentoringInfo.getPrice())
+            .mentor(mentor)
             .build();
 
     List<backend.resumerryv2.util.domain.entity.Category> categoryList =
