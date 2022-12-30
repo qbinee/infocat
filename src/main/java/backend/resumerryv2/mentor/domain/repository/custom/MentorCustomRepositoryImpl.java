@@ -92,6 +92,7 @@ public class MentorCustomRepositoryImpl implements MentorCustomRepository {
                                 mentorClass.shorts,
                                 mentorClass.contents,
                                 role1.role,
+                                mentor.job,
                                 mentor.career,
                                 mentor.years,
                                 mentor.company,

@@ -18,6 +18,7 @@ public class MentoringContent {
     private String shorts;
     private String content;
     private Role role;
+    private String job;
     private String career;
     private Integer years;
     private Company company;

@@ -4,10 +4,7 @@ package backend.resumerryv2.mentor.web;
 import backend.resumerryv2.global.domain.dto.GlobalResponse;
 import backend.resumerryv2.mentor.domain.dto.MentorContent;
 import backend.resumerryv2.mentor.service.MentorService;
-import backend.resumerryv2.mentor.web.dto.MentorRequest;
-import backend.resumerryv2.mentor.web.dto.MentoringRequest;
-import backend.resumerryv2.mentor.web.dto.MentoringResponse;
-import backend.resumerryv2.mentor.web.dto.MentoringSessionRequest;
+import backend.resumerryv2.mentor.web.dto.*;
 import backend.resumerryv2.security.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -67,5 +64,13 @@ public class MentorController {
   ){
     MentoringResponse mentoringResponse = mentorService.getMentorClassInfo(mentoringClassId);
     return ResponseEntity.ok(mentoringResponse);
+  }
+
+  @GetMapping("/mentoring/{mentoring_class_id}/apply")
+  public ResponseEntity<MentoringScheduleResponse> getMentoringClassInfoInApply(
+          @PathVariable("mentoring_class_id") Long mentoringClassId
+  ){
+    MentoringScheduleResponse mentoringScheduleResponse = mentorService.getMentorClassScheduleInfo(mentoringClassId);
+    return ResponseEntity.ok(mentoringScheduleResponse);
   }
 }

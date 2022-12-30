@@ -155,9 +155,6 @@ public class MentorService {
 
   public MentoringResponse getMentorClassInfo(Long mentoringClassId){
     MentoringContent mentoringInfo = mentorCustomRepository.getMentoringClassInfo(mentoringClassId);
-    List<String> bookingDays = mentorCustomRepository.getBookingDaysByMentoringClassId(mentoringClassId);
-    ClassWeekSchedule weekSchedule = findClassScheduleByClassId(mentoringClassId);
-    List<String> totalDays = extractTotalPossibleDate(weekSchedule);
     return new MentoringResponse(
             mentoringClassId,
             mentoringInfo.getMentorId(),
@@ -166,12 +163,23 @@ public class MentorService {
             mentoringInfo.getShorts(),
             mentoringInfo.getContent(),
             mentoringInfo.getRole().getName(),
+            mentoringInfo.getJob(),
             mentoringInfo.getCareer(),
             mentoringInfo.getYears(),
             mentoringInfo.getCompany().getName(),
             mentoringInfo.getStars(),
             mentoringInfo.getImage(),
-            mentoringInfo.getPrice(),
+            mentoringInfo.getPrice()
+    );
+  }
+
+  public MentoringScheduleResponse getMentorClassScheduleInfo(Long mentoringClassId){
+    List<String> bookingDays = mentorCustomRepository.getBookingDaysByMentoringClassId(mentoringClassId);
+    ClassWeekSchedule weekSchedule = findClassScheduleByClassId(mentoringClassId);
+    List<String> totalDays = extractTotalPossibleDate(weekSchedule);
+    return new MentoringScheduleResponse(
+            mentoringClassId,
+            findMentorClassbyId(mentoringClassId).getMentor().getId(),
             weekSchedule.getDuration(),
             bookingDays,
             totalDays
