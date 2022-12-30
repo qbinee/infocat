@@ -41,6 +41,14 @@ public class MentorController {
     return ResponseEntity.ok(GlobalResponse.ofSuccess());
   }
 
+  @GetMapping("/mentor")
+  public ResponseEntity<MentorResponse> getMentor(
+          @AuthenticationPrincipal CustomUserDetails userDetails
+  ){
+    MentorResponse response = mentorService.getMentor(userDetails);
+    return ResponseEntity.ok(response);
+  }
+
   @PostMapping("/mentoring")
   public ResponseEntity<GlobalResponse> createMentoring(
       @RequestBody MentoringRequest mentoringRequest,

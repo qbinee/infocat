@@ -94,6 +94,20 @@ public class MentorService {
     }
   }
 
+  public MentorResponse getMentor(CustomUserDetails customUserDetails){
+    User user = findUserByEmail(customUserDetails.getEmail());
+    Mentor mentor = findMentorByUser(user);
+    return new MentorResponse(
+            mentor.getYears(),
+            mentor.getEmail(),
+            mentor.getCareer(),
+            mentor.getJob(),
+            mentor.getPhoneNumber(),
+            mentor.getName(),
+            mentor.getCompany().getName()
+    );
+  }
+
   public void createMentoringClass(CustomUserDetails userDetails, MentoringRequest mentoringInfo) {
     User user = findUserByEmail(userDetails.getEmail());
     Mentor mentor = findMentorByUser(user);
