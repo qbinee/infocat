@@ -4,9 +4,7 @@ package backend.resumerryv2.mentor.web;
 import backend.resumerryv2.global.domain.dto.GlobalResponse;
 import backend.resumerryv2.mentor.domain.dto.MentorContent;
 import backend.resumerryv2.mentor.service.MentorService;
-import backend.resumerryv2.mentor.web.dto.MentorRequest;
-import backend.resumerryv2.mentor.web.dto.MentoringRequest;
-import backend.resumerryv2.mentor.web.dto.MentoringSessionRequest;
+import backend.resumerryv2.mentor.web.dto.*;
 import backend.resumerryv2.security.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -43,6 +41,14 @@ public class MentorController {
     return ResponseEntity.ok(GlobalResponse.ofSuccess());
   }
 
+  @GetMapping("/mentor")
+  public ResponseEntity<MentorResponse> getMentor(
+          @AuthenticationPrincipal CustomUserDetails userDetails
+  ){
+    MentorResponse response = mentorService.getMentor(userDetails);
+    return ResponseEntity.ok(response);
+  }
+
   @PostMapping("/mentoring")
   public ResponseEntity<GlobalResponse> createMentoring(
       @RequestBody MentoringRequest mentoringRequest,
@@ -58,5 +64,21 @@ public class MentorController {
           ){
     mentorService.createMentoringSession(userDetails, mentoringSessionRequest);
     return ResponseEntity.ok(GlobalResponse.ofSuccess());
+  }
+
+  @GetMapping("/mentoring/{mentoring_class_id}")
+  public ResponseEntity<MentoringResponse> getMentoringClassInfo(
+          @PathVariable("mentoring_class_id") Long mentoringClassId
+  ){
+    MentoringResponse mentoringResponse = mentorService.getMentorClassInfo(mentoringClassId);
+    return ResponseEntity.ok(mentoringResponse);
+  }
+
+  @GetMapping("/mentoring/{mentoring_class_id}/apply")
+  public ResponseEntity<MentoringScheduleResponse> getMentoringClassInfoInApply(
+          @PathVariable("mentoring_class_id") Long mentoringClassId
+  ){
+    MentoringScheduleResponse mentoringScheduleResponse = mentorService.getMentorClassScheduleInfo(mentoringClassId);
+    return ResponseEntity.ok(mentoringScheduleResponse);
   }
 }

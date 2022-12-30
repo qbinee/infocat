@@ -35,3 +35,6 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### applicationYml ###
+resources/application.yml
