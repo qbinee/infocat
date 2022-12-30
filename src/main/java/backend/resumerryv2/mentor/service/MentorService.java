@@ -8,15 +8,13 @@ import backend.resumerryv2.mentor.domain.ClassWeekSchedule;
 import backend.resumerryv2.mentor.domain.Mentor;
 import backend.resumerryv2.mentor.domain.MentorClass;
 import backend.resumerryv2.mentor.domain.dto.MentorContent;
+import backend.resumerryv2.mentor.domain.dto.MentoringContent;
 import backend.resumerryv2.mentor.domain.repository.ClassSessionRepository;
 import backend.resumerryv2.mentor.domain.repository.ClassWeekScheduleRepository;
 import backend.resumerryv2.mentor.domain.repository.MentorClassRepository;
 import backend.resumerryv2.mentor.domain.repository.MentorRepository;
 import backend.resumerryv2.mentor.domain.repository.custom.MentorCustomRepository;
-import backend.resumerryv2.mentor.web.dto.FieldOfMentorList;
-import backend.resumerryv2.mentor.web.dto.MentorRequest;
-import backend.resumerryv2.mentor.web.dto.MentoringRequest;
-import backend.resumerryv2.mentor.web.dto.MentoringSessionRequest;
+import backend.resumerryv2.mentor.web.dto.*;
 import backend.resumerryv2.security.CustomUserDetails;
 import backend.resumerryv2.user.domain.User;
 import backend.resumerryv2.user.domain.repository.UserRepository;
@@ -33,7 +31,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.Period;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.stream.Stream;
 
 @AllArgsConstructor
 @Service
@@ -145,6 +152,80 @@ public class MentorService {
     classSessionRepository.save(classSession);
 
   }
+
+  public MentoringResponse getMentorClassInfo(Long mentoringClassId){
+    MentoringContent mentoringInfo = mentorCustomRepository.getMentoringClassInfo(mentoringClassId);
+    List<String> bookingDays = mentorCustomRepository.getBookingDaysByMentoringClassId(mentoringClassId);
+    ClassWeekSchedule weekSchedule = findClassScheduleByClassId(mentoringClassId);
+    List<String> totalDays = extractTotalPossibleDate(weekSchedule);
+    return new MentoringResponse(
+            mentoringClassId,
+            mentoringInfo.getMentorId(),
+            mentoringInfo.getNickname(),
+            mentoringInfo.getTitle(),
+            mentoringInfo.getShorts(),
+            mentoringInfo.getContent(),
+            mentoringInfo.getRole().getName(),
+            mentoringInfo.getCareer(),
+            mentoringInfo.getYears(),
+            mentoringInfo.getCompany().getName(),
+            mentoringInfo.getStars(),
+            mentoringInfo.getImage(),
+            mentoringInfo.getPrice(),
+            weekSchedule.getDuration(),
+            bookingDays,
+            totalDays
+    );
+  }
+
+
+
+  private List<String> extractTotalPossibleDate(ClassWeekSchedule classWeekSchedule) {
+    String timeScheduleStr = classWeekSchedule.getTimeSchedule();
+    List<String> totalPossibleDate = new ArrayList<>();
+
+    LocalDate now = LocalDate.now();
+    now.plusDays(3);
+    List<LocalDate> availableDays = now.datesUntil(now.plusDays(11), Period.ofDays(1)).toList();
+
+    String[] timeSchedule = timeScheduleStr.substring(1, timeScheduleStr.length()-1).split(", ");
+
+    for(LocalDate d: availableDays) {
+      Integer week = parseNumberByDayOfWeek(d.getDayOfWeek());
+      for (String t : timeSchedule) {
+        String[] weeklyTime = t.split(":");
+        if (week == Integer.parseInt(weeklyTime[0])) {
+          totalPossibleDate.add(d.toString() + "T" + weeklyTime[1] + ":" + weeklyTime[2] + ":00.000Z"); // 12:30
+        }
+      }
+    }
+      return totalPossibleDate;
+    }
+
+
+  private Integer parseNumberByDayOfWeek(DayOfWeek n){
+    if(n == DayOfWeek.MONDAY){
+      return 1;
+    } else if (n == DayOfWeek.TUESDAY) {
+      return 2;
+    } else if (n == DayOfWeek.WEDNESDAY) {
+      return 3;
+    } else if (n == DayOfWeek.THURSDAY) {
+      return 4;
+    } else if (n == DayOfWeek.FRIDAY) {
+      return 5;
+    } else if (n == DayOfWeek.SATURDAY) {
+      return 6;
+    }
+    return 7;
+  }
+
+  private ClassWeekSchedule findClassScheduleByClassId(Long id){
+    return classWeekScheduleRepository
+            .findAllByMentorClassId(id)
+            .orElseThrow(() -> new CustomException(HttpStatus.BAD_REQUEST, ErrorType.INVALID_CLASS_SCHEDULE));
+  }
+
   private List<backend.resumerryv2.util.domain.entity.Category> generateCategoryList(
       List<Integer> categories, Mentor mentor, MentorClass mentorClass) {
     return categories.stream()
