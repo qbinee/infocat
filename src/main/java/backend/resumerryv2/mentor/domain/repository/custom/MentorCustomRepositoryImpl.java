@@ -93,7 +93,7 @@ public class MentorCustomRepositoryImpl implements MentorCustomRepository {
                                 mentorClass.contents,
                                 role1.role,
                                 mentor.job,
-                                mentor.career,
+                                mentorClass.career,
                                 mentor.years,
                                 mentor.company,
                                 mentor.stars,
@@ -173,15 +173,15 @@ public class MentorCustomRepositoryImpl implements MentorCustomRepository {
 
     private OrderSpecifier getSorted(String sorted) {
         if (sorted == "recent") {
-            return new OrderSpecifier(Order.DESC, mentor.modifiedDate);
+            return new OrderSpecifier(Order.DESC, mentorClass.createdDate);
         } else if (sorted == "popular") {
             return new OrderSpecifier(Order.DESC, mentor.views);
         } else if (sorted == "stars") {
             return new OrderSpecifier(Order.DESC, mentor.stars);
         } else if (sorted == "low_price") {
-            return new OrderSpecifier(Order.ASC, mentor.price);
+            return new OrderSpecifier(Order.ASC, mentorClass.price);
         } else if (sorted == "high_price") {
-            return new OrderSpecifier(Order.DESC, mentor.price);
+            return new OrderSpecifier(Order.DESC, mentorClass.price);
         }
         return new OrderSpecifier(Order.ASC, mentor.id);
     }
