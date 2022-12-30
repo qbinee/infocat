@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
 
@@ -51,6 +52,17 @@ public class AuthController {
             @Validated(ValidationSequence.class) @RequestBody CompanyEmailRequest email
             ){
         return ResponseEntity.ok(authService.certificatedEmail(email));
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<GlobalResponse> logout(
+            HttpServletResponse response
+    ){
+        Cookie myCookie = new Cookie("AccessToken", null);
+        myCookie.setMaxAge(0); // 쿠키의 expiration 타임을 0으로 하여 없앤다.
+        myCookie.setPath("/");
+        response.addCookie(myCookie);
+        return ResponseEntity.ok(GlobalResponse.ofSuccess());
     }
 
 }
