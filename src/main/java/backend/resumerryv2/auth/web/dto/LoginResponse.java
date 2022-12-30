@@ -6,5 +6,8 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class LoginResponse {
+    private Long id;
     private Boolean isMentor;
+    private String nickname;
+
 }
