@@ -59,7 +59,7 @@ public class AuthController {
             HttpServletResponse response
     ){
         Cookie myCookie = new Cookie("AccessToken", null);
-        myCookie.setMaxAge(0); // 쿠키의 expiration 타임을 0으로 하여 없앤다.
+        myCookie.setMaxAge(0);
         myCookie.setPath("/");
         response.addCookie(myCookie);
         return ResponseEntity.ok(GlobalResponse.ofSuccess());
