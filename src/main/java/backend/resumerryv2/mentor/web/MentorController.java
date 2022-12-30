@@ -6,6 +6,7 @@ import backend.resumerryv2.mentor.domain.dto.MentorContent;
 import backend.resumerryv2.mentor.service.MentorService;
 import backend.resumerryv2.mentor.web.dto.MentorRequest;
 import backend.resumerryv2.mentor.web.dto.MentoringRequest;
+import backend.resumerryv2.mentor.web.dto.MentoringResponse;
 import backend.resumerryv2.mentor.web.dto.MentoringSessionRequest;
 import backend.resumerryv2.security.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
@@ -58,5 +59,13 @@ public class MentorController {
           ){
     mentorService.createMentoringSession(userDetails, mentoringSessionRequest);
     return ResponseEntity.ok(GlobalResponse.ofSuccess());
+  }
+
+  @GetMapping("/mentoring/{mentoring_class_id}")
+  public ResponseEntity<MentoringResponse> getMentoringClassInfo(
+          @PathVariable("mentoring_class_id") Long mentoringClassId
+  ){
+    MentoringResponse mentoringResponse = mentorService.getMentorClassInfo(mentoringClassId);
+    return ResponseEntity.ok(mentoringResponse);
   }
 }
