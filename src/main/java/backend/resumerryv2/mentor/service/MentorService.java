@@ -40,6 +40,7 @@ import java.time.Period;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Stream;
 
 @AllArgsConstructor
@@ -74,7 +75,9 @@ public class MentorService {
   public void createMentor(CustomUserDetails userDetails, MentorRequest mentorInfo) {
     User user = findUserByEmail(userDetails.getEmail());
     Company company = Company.of(mentorInfo.getEmail().split("@")[1]);
-
+    if(!Objects.isNull(findMentorByUser(user))) {
+      throw new CustomException(HttpStatus.BAD_REQUEST, ErrorType.DUPLICATED_MENTOR);
+    }
     Mentor mentor =
         Mentor.builder()
             .years(mentorInfo.getYears())
@@ -86,12 +89,7 @@ public class MentorService {
             .name(mentorInfo.getName())
             .user(user)
             .build();
-
-    try {
-      mentorRepository.save(mentor);
-    } catch (DataIntegrityViolationException e) {
-      throw new CustomException(HttpStatus.SERVICE_UNAVAILABLE, ErrorType.DUPLICATED_MENTOR);
-    }
+    mentorRepository.save(mentor);
   }
 
   public MentorResponse getMentor(CustomUserDetails customUserDetails){
