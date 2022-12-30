@@ -35,7 +35,7 @@ public class AuthService {
 
     public LoginResponse login(String email, String password){
         User user = checkEmailAndPassword(email, password);
-        return new LoginResponse(mentorService.getUserIsMentor(user));
+        return new LoginResponse(user.getId(),mentorService.getUserIsMentor(user), user.getNickname());
     }
 
     public Cookie getAccessTokenCookie(String email){
