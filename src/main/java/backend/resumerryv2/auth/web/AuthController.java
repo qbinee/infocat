@@ -41,9 +41,9 @@ public class AuthController {
             @Validated(ValidationSequence.class) @RequestBody TokenDTO.Request request,
             HttpServletResponse response
     ){
-        LoginResponse res = authService.login(request.getEmail(), request.getPassword());
+        LoginResponse loginResponse = authService.login(request.getEmail(), request.getPassword());
         response.addCookie(authService.getAccessTokenCookie(request.getEmail()));
-        return ResponseEntity.ok(res);
+        return ResponseEntity.ok(loginResponse);
     }
 
     @PostMapping("/email")
