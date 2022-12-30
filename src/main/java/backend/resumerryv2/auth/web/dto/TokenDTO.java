@@ -1,6 +1,9 @@
 package backend.resumerryv2.auth.web.dto;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 public class TokenDTO {
     @Data

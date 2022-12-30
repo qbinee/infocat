@@ -1,7 +1,7 @@
 /* Licensed under InfoCat */
 package backend.resumerryv2.global.converter;
 
-import backend.resumerryv2.util.domain.enums.Field;
+import backend.resumerryv2.category.domain.enums.Field;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Convert;

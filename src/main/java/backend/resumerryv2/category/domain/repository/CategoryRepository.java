@@ -1,7 +1,7 @@
 /* Licensed under InfoCat */
-package backend.resumerryv2.util.domain.repository;
+package backend.resumerryv2.category.domain.repository;
 
-import backend.resumerryv2.util.domain.entity.Category;
+import backend.resumerryv2.category.domain.entity.Category;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

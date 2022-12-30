@@ -1,7 +1,7 @@
 package backend.resumerryv2.mentor.domain.dto;
 
-import backend.resumerryv2.util.domain.enums.Company;
-import backend.resumerryv2.util.domain.enums.Role;
+import backend.resumerryv2.category.domain.enums.Company;
+import backend.resumerryv2.category.domain.enums.Role;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

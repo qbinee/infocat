@@ -1,12 +1,12 @@
 /* Licensed under InfoCat */
 package backend.resumerryv2.mentor.domain.repository.custom;
 
+import backend.resumerryv2.category.domain.enums.Category;
+import backend.resumerryv2.category.domain.enums.Role;
 import backend.resumerryv2.mentor.domain.dto.MentorContent;
 import backend.resumerryv2.mentor.domain.dto.MentoringContent;
 import backend.resumerryv2.mentor.domain.dto.MentoringPost;
 import backend.resumerryv2.mentor.web.dto.FieldOfMentorList;
-import backend.resumerryv2.util.domain.enums.Category;
-import backend.resumerryv2.util.domain.enums.Role;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
@@ -24,11 +24,11 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import static backend.resumerryv2.category.domain.entity.QCategory.category1;
+import static backend.resumerryv2.category.domain.entity.QRole.role1;
 import static backend.resumerryv2.mentor.domain.QClassSession.classSession;
 import static backend.resumerryv2.mentor.domain.QMentor.mentor;
 import static backend.resumerryv2.mentor.domain.QMentorClass.mentorClass;
-import static backend.resumerryv2.util.domain.entity.QCategory.category1;
-import static backend.resumerryv2.util.domain.entity.QRole.role1;
 
 @RequiredArgsConstructor
 @Repository

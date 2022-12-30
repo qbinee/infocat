@@ -1,11 +1,8 @@
 /* Licensed under InfoCat */
-package backend.resumerryv2.util.domain.enums;
+package backend.resumerryv2.category.domain.enums;
 
-import backend.resumerryv2.exception.CustomException;
-import backend.resumerryv2.exception.ErrorType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.springframework.http.HttpStatus;
 
 import java.util.Arrays;
 import java.util.Collections;

@@ -1,7 +1,7 @@
 package backend.resumerryv2.auth.web;
 
-import backend.resumerryv2.auth.web.dto.*;
 import backend.resumerryv2.auth.service.AuthService;
+import backend.resumerryv2.auth.web.dto.*;
 import backend.resumerryv2.exception.validation.ValidationSequence;
 import backend.resumerryv2.global.domain.dto.GlobalResponse;
 import lombok.RequiredArgsConstructor;

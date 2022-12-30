@@ -43,7 +43,7 @@ public class SecurityConfiguration {
                 .permitAll()
                 .antMatchers( "/api/v1/mentoring/posts", "/api/v1/mentoring/{mentoring_class_id}", "/api/v1/mentoring/{mentoring_class_id}/**")
                 .permitAll()
-                .antMatchers("api/v1/auth/logout")
+                .antMatchers("/api/v1/auth/logout", "/api/v1/my_page", "/api/v1/my_page/**")
                 .authenticated()
                 .antMatchers("/api/v1/mentor", "/api/v1/mentoring", "/api/v1/mentoring/**")
                 .authenticated()

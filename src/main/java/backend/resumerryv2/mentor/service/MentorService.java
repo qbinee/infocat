@@ -1,6 +1,11 @@
 /* Licensed under InfoCat */
 package backend.resumerryv2.mentor.service;
 
+import backend.resumerryv2.category.domain.entity.Category;
+import backend.resumerryv2.category.domain.entity.Role;
+import backend.resumerryv2.category.domain.enums.Company;
+import backend.resumerryv2.category.domain.repository.CategoryRepository;
+import backend.resumerryv2.category.domain.repository.RoleRepository;
 import backend.resumerryv2.exception.CustomException;
 import backend.resumerryv2.exception.ErrorType;
 import backend.resumerryv2.mentor.domain.ClassSession;
@@ -18,30 +23,19 @@ import backend.resumerryv2.mentor.web.dto.*;
 import backend.resumerryv2.security.CustomUserDetails;
 import backend.resumerryv2.user.domain.User;
 import backend.resumerryv2.user.domain.repository.UserRepository;
-import backend.resumerryv2.util.domain.entity.Role;
-import backend.resumerryv2.util.domain.enums.Category;
-import backend.resumerryv2.util.domain.enums.Company;
-import backend.resumerryv2.util.domain.repository.CategoryRepository;
-import backend.resumerryv2.util.domain.repository.RoleRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.Period;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Stream;
 
 @AllArgsConstructor
 @Service
@@ -121,7 +115,7 @@ public class MentorService {
             .mentor(mentor)
             .build();
 
-    List<backend.resumerryv2.util.domain.entity.Category> categoryList =
+    List<Category> categoryList =
         generateCategoryList(mentoringInfo.getField(), mentor, mentorClass);
 
     ClassWeekSchedule classWeekSchedule =
@@ -135,7 +129,7 @@ public class MentorService {
         Role.builder()
             .mentor(mentor)
             .mentorClass(mentorClass)
-            .role(backend.resumerryv2.util.domain.enums.Role.of(mentoringInfo.getRole()))
+            .role(backend.resumerryv2.category.domain.enums.Role.of(mentoringInfo.getRole()))
             .build();
 
     classWeekScheduleRepository.save(classWeekSchedule);
@@ -246,13 +240,13 @@ public class MentorService {
             .orElseThrow(() -> new CustomException(HttpStatus.BAD_REQUEST, ErrorType.INVALID_CLASS_SCHEDULE));
   }
 
-  private List<backend.resumerryv2.util.domain.entity.Category> generateCategoryList(
+  private List<Category> generateCategoryList(
       List<Integer> categories, Mentor mentor, MentorClass mentorClass) {
     return categories.stream()
         .map(
             c ->
-                backend.resumerryv2.util.domain.entity.Category.builder()
-                    .category(Category.of(c))
+                Category.builder()
+                    .category(backend.resumerryv2.category.domain.enums.Category.of(c))
                     .mentor(mentor)
                     .mentorClass(mentorClass)
                     .build())
