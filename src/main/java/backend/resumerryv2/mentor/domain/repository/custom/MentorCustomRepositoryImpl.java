@@ -7,7 +7,6 @@ import backend.resumerryv2.mentor.domain.dto.MentoringPost;
 import backend.resumerryv2.mentor.web.dto.FieldOfMentorList;
 import backend.resumerryv2.util.domain.enums.Category;
 import backend.resumerryv2.util.domain.enums.Role;
-import backend.resumerryv2.util.domain.repository.RoleRepository;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
@@ -183,7 +182,7 @@ public class MentorCustomRepositoryImpl implements MentorCustomRepository {
         } else if (sorted == "high_price") {
             return new OrderSpecifier(Order.DESC, mentorClass.price);
         }
-        return new OrderSpecifier(Order.ASC, mentor.id);
+        return new OrderSpecifier(Order.DESC, mentorClass.createdDate);
     }
 
     private PageImpl entityToDTO(List<MentorContent> mentorClasses, Pageable p, long counts) {
