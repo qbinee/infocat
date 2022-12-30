@@ -1,8 +1,8 @@
 package backend.resumerryv2.auth.web;
 
 
-import backend.resumerryv2.auth.web.dto.TokenDTO;
 import backend.resumerryv2.auth.service.EmailService;
+import backend.resumerryv2.auth.web.dto.TokenDTO;
 import backend.resumerryv2.auth.web.dto.ValidationCodeRequest;
 import backend.resumerryv2.global.domain.dto.GlobalResponse;
 import backend.resumerryv2.security.JwtProvider;

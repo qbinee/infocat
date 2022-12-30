@@ -1,12 +1,12 @@
 /* Licensed under InfoCat */
 package backend.resumerryv2.mentor.domain;
 
+import backend.resumerryv2.category.domain.enums.Company;
+import backend.resumerryv2.category.domain.enums.Field;
+import backend.resumerryv2.category.domain.enums.Role;
 import backend.resumerryv2.global.converter.CompanyCodeConverter;
 import backend.resumerryv2.global.domain.entity.BaseEntity;
 import backend.resumerryv2.user.domain.User;
-import backend.resumerryv2.util.domain.enums.Company;
-import backend.resumerryv2.util.domain.enums.Field;
-import backend.resumerryv2.util.domain.enums.Role;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -1,7 +1,7 @@
 /* Licensed under InfoCat */
-package backend.resumerryv2.util.domain.entity;
+package backend.resumerryv2.category.domain.entity;
 
-import backend.resumerryv2.global.converter.CategoryCodeConverter;
+import backend.resumerryv2.global.converter.RoleCodeConverter;
 import backend.resumerryv2.mentor.domain.Mentor;
 import backend.resumerryv2.mentor.domain.MentorClass;
 import lombok.Builder;
@@ -13,7 +13,7 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor
 @Entity
-public class Category {
+public class Role {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
@@ -26,18 +26,18 @@ public class Category {
   @JoinColumn
   private MentorClass mentorClass;
 
-  @Convert(converter = CategoryCodeConverter.class)
-  private backend.resumerryv2.util.domain.enums.Category category;
+  @Convert(converter = RoleCodeConverter.class)
+  private backend.resumerryv2.category.domain.enums.Role role;
 
   @Builder
-  public Category(
+  public Role(
       Long id,
       Mentor mentor,
       MentorClass mentorClass,
-      backend.resumerryv2.util.domain.enums.Category category) {
+      backend.resumerryv2.category.domain.enums.Role role) {
     this.id = id;
     this.mentor = mentor;
     this.mentorClass = mentorClass;
-    this.category = category;
+    this.role = role;
   }
 }
