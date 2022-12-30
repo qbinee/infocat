@@ -18,13 +18,12 @@ public class MentoringResponse {
     private String shorts;
     private String content;
     private String role;
+    private String job;
     private String career;
     private Integer years;
     private String company;
     private Float stars;
     private String image;
     private Integer price;
-    private Character duration;
-    private List<String> bookingDays;
-    private List<String> totalDays;
+
 }
