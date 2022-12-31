@@ -26,7 +26,7 @@ public class UserService {
     private final UserCustomRepository userCustomRepository;
 
     public Optional<User> getUser(String email) {
-        return userRepository.findByEmail(email);
+        return userRepository.findByEmailAndIsDeleteFalse(email);
     }
 
     public Page<ClassSessionResponse> getUserClassSession(CustomUserDetails userDetails, Pageable pageable){
@@ -35,7 +35,7 @@ public class UserService {
     }
     private User findUserByEmail(String email) {
         return userRepository
-                .findByEmail(email)
+                .findByEmailAndIsDeleteFalse(email)
                 .orElseThrow(() -> new CustomException(HttpStatus.BAD_REQUEST, ErrorType.INVALID_USER));
     }
 }

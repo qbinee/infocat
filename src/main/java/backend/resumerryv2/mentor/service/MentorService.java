@@ -267,7 +267,7 @@ public class MentorService {
 
   private User findUserByEmail(String email) {
     return userRepository
-        .findByEmail(email)
+        .findByEmailAndIsDeleteFalse(email)
         .orElseThrow(() -> new CustomException(HttpStatus.BAD_REQUEST, ErrorType.INVALID_USER));
   }
 
