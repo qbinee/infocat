@@ -69,7 +69,7 @@ public class MentorService {
   public void createMentor(CustomUserDetails userDetails, MentorRequest mentorInfo) {
     User user = findUserByEmail(userDetails.getEmail());
     Company company = Company.of(mentorInfo.getEmail().split("@")[1]);
-    if(!Objects.isNull(findMentorByUser(user))) {
+    if(mentorRepository.findAllByUserId(user.getId()).isPresent()) {
       throw new CustomException(HttpStatus.BAD_REQUEST, ErrorType.DUPLICATED_MENTOR);
     }
     Mentor mentor =
