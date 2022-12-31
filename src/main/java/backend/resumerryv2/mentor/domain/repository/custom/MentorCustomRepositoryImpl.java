@@ -70,7 +70,7 @@ public class MentorCustomRepositoryImpl implements MentorCustomRepository {
                         .from(mentorClass)
                         .leftJoin(mentor).on(mentor.id.eq(mentorClass.mentor.id))
                         .leftJoin(role1).on(role1.mentorClass.id.eq(mentorClass.id))
-                        .where(eqMentorClassIds(mentorClassIds), eqTitle(f.getTitle()))
+                        .where(eqMentorClassIds(mentorClassIds), eqTitle(f.getTitle()), mentor.user.isDelete.isFalse())
                         .offset(p.getOffset())
                         .limit(p.getPageSize())
                         .orderBy(getSorted(f.getSorted()))
