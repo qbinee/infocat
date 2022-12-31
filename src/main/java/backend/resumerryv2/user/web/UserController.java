@@ -21,12 +21,12 @@ public class UserController {
 
     private final UserService userService;
 
-    @GetMapping("/my_page/class_session")
-    public ResponseEntity<Page<ClassSessionResponse>> getClassSession(
+    @GetMapping("/my_page/user/class_session")
+    public ResponseEntity<Page<ClassSessionResponse>> getUserClassSession(
             @AuthenticationPrincipal CustomUserDetails userDetails,
             Pageable pageable
             ){
-        Page<ClassSessionResponse> classSessionResponses = userService.getClassSession(userDetails, pageable);
+        Page<ClassSessionResponse> classSessionResponses = userService.getUserClassSession(userDetails, pageable);
         return ResponseEntity.ok(classSessionResponses);
     }
 }

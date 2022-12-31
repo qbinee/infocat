@@ -23,6 +23,7 @@ import backend.resumerryv2.mentor.web.dto.*;
 import backend.resumerryv2.security.CustomUserDetails;
 import backend.resumerryv2.user.domain.User;
 import backend.resumerryv2.user.domain.repository.UserRepository;
+import backend.resumerryv2.user.web.dto.ClassSessionResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -192,6 +193,11 @@ public class MentorService {
     );
   }
 
+  public Page<ClassSessionResponse> getMentorClassSession(CustomUserDetails userDetails, Pageable pageable){
+    User user = findUserByEmail(userDetails.getEmail());
+    Mentor mentor = findMentorByUser(user);
+    return mentorCustomRepository.getClassSession(mentor, pageable);
+  }
 
 
   private List<String> extractTotalPossibleDate(ClassWeekSchedule classWeekSchedule) {
