@@ -6,6 +6,7 @@ import backend.resumerryv2.mentor.domain.dto.MentorContent;
 import backend.resumerryv2.mentor.service.MentorService;
 import backend.resumerryv2.mentor.web.dto.*;
 import backend.resumerryv2.security.CustomUserDetails;
+import backend.resumerryv2.user.web.dto.ClassSessionResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -42,7 +43,7 @@ public class MentorController {
   }
 
   @GetMapping("/mentor")
-  public ResponseEntity<MentorResponse> getMentor(
+  public ResponseEntity<MentorResponse> getMentorClass(
           @AuthenticationPrincipal CustomUserDetails userDetails
   ){
     MentorResponse response = mentorService.getMentor(userDetails);
@@ -80,5 +81,14 @@ public class MentorController {
   ){
     MentoringScheduleResponse mentoringScheduleResponse = mentorService.getMentorClassScheduleInfo(mentoringClassId);
     return ResponseEntity.ok(mentoringScheduleResponse);
+  }
+
+  @GetMapping("/my_page/mentor/class_session")
+  public ResponseEntity<Page<ClassSessionResponse>> getUserClassSession(
+          @AuthenticationPrincipal CustomUserDetails userDetails,
+          Pageable pageable
+  ){
+    Page<ClassSessionResponse> classSessionResponses = mentorService.getMentorClassSession(userDetails, pageable);
+    return ResponseEntity.ok(classSessionResponses);
   }
 }

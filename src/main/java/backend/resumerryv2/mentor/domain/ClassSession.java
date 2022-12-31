@@ -1,6 +1,7 @@
 /* Licensed under InfoCat */
 package backend.resumerryv2.mentor.domain;
 
+import backend.resumerryv2.global.converter.BooleanConverter;
 import backend.resumerryv2.global.domain.entity.BaseEntity;
 import backend.resumerryv2.user.domain.User;
 import lombok.Builder;
@@ -37,9 +38,10 @@ public class ClassSession extends BaseEntity {
 
   @Nullable private String otherThings;
 
-  private Boolean mentorChecked;
+  @Convert(converter = BooleanConverter.class) private Boolean mentorChecked;
 
-  private Boolean userDeprecated;
+  @Convert(converter = BooleanConverter.class) private Boolean userDeprecated;
+  @Convert(converter = BooleanConverter.class) private Boolean mentorDeprecated;
 
   @Column(length = 100)
   private String name;
@@ -54,6 +56,7 @@ public class ClassSession extends BaseEntity {
     super.prePersist();
     this.mentorChecked = this.mentorChecked == null ? false : this.mentorChecked;
     this.userDeprecated = this.userDeprecated == null ? false : this.userDeprecated;
+    this.mentorDeprecated = this.mentorDeprecated == null ? false : this.mentorDeprecated;
   }
 
   @Builder

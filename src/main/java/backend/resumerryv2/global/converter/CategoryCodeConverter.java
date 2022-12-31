@@ -1,6 +1,6 @@
 package backend.resumerryv2.global.converter;
 
-import backend.resumerryv2.util.domain.enums.Category;
+import backend.resumerryv2.category.domain.enums.Category;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Convert;

@@ -2,14 +2,12 @@
 package backend.resumerryv2.user.domain;
 
 import backend.resumerryv2.global.domain.entity.BaseEntity;
-import backend.resumerryv2.mentor.domain.ClassSession;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
-import java.util.Collection;
 
 @Getter
 @NoArgsConstructor
