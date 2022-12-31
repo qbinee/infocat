@@ -9,7 +9,7 @@ spring:
   datasource:
     url: jdbc:mysql://resumerry.c1wuckwlvegg.ap-northeast-2.rds.amazonaws.com:3306/resumerry
     username: admin
-    password: dkwneo12!
+    password: @@@
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     database: mysql
@@ -24,8 +24,8 @@ spring:
   mail:
     host: smtp.gmail.com
     port: 587
-    username: sdhg12@ajou.ac.kr
-    password: rkskek986532*
+    username: @@@@@
+    password: @@@@@@
     properties:
       mail:
         debug: true
