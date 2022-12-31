@@ -1,4 +1,4 @@
-package backend.resumerryv2.util.domain.enums;
+package backend.resumerryv2.category.domain.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

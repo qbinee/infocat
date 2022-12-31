@@ -12,5 +12,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
   @Override
   <S extends User> S save(S entity);
 
-  Optional<User> findByEmail(String email);
+  Optional<User> findByEmailAndIsDeleteFalse(String email);
 }

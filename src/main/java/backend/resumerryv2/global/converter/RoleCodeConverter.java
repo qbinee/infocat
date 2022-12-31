@@ -1,7 +1,7 @@
 /* Licensed under InfoCat */
 package backend.resumerryv2.global.converter;
 
-import backend.resumerryv2.util.domain.enums.Role;
+import backend.resumerryv2.category.domain.enums.Role;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
