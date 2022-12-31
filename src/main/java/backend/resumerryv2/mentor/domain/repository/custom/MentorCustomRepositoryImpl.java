@@ -134,7 +134,7 @@ public class MentorCustomRepositoryImpl implements MentorCustomRepository {
     }
 
     private BooleanExpression eqTitle(String title) {
-        return title == null ? null : mentor.title.contains(title);
+        return title == null ? null : mentorClass.title.contains(title);
     }
 
     private BooleanBuilder eqRole(List<Integer> roles) {

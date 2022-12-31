@@ -42,7 +42,7 @@ public class MentorController {
   }
 
   @GetMapping("/mentor")
-  public ResponseEntity<MentorResponse> getMentor(
+  public ResponseEntity<MentorResponse> getMentorClass(
           @AuthenticationPrincipal CustomUserDetails userDetails
   ){
     MentorResponse response = mentorService.getMentor(userDetails);
