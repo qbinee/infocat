@@ -1,5 +1,6 @@
 package backend.resumerryv2.user.domain.repository;
 
+import backend.resumerryv2.global.enums.ClassSessionStatus;
 import backend.resumerryv2.user.domain.User;
 import backend.resumerryv2.user.domain.dto.ClassSessionContent;
 import backend.resumerryv2.user.web.dto.ClassSessionResponse;
@@ -26,12 +27,6 @@ public class UserCustomRepositoryImpl implements UserCustomRepository{
 
     private final JPAQueryFactory jpaQueryFactory;
 
-    private final String pending = "Pending";
-    private final String assign = "Assign";
-    private final String mentorRefuse = "MentorRefuse";
-    private final String userRefuse = "UserRefuse";
-    private final String expiredDate = "ExpiredDate";
-    private final String complete = "Complete";
     @Override
     public Page<ClassSessionResponse> getClassSession(User user, Pageable pageable){
         List<ClassSessionContent> classSessionContents = jpaQueryFactory
@@ -77,7 +72,7 @@ public class UserCustomRepositoryImpl implements UserCustomRepository{
                                         c.getClassSessionId(),
                                         c.getTitle(),
                                         c.getName(),
-                                        getUserStatus(c.getUserDeprecated(), c.getMentorChecked(), c.getMentorDeprecated(), c.getBookingDay()),
+                                        getUserStatus(c.getUserDeprecated(), c.getMentorChecked(), c.getMentorDeprecated(), c.getBookingDay()).getName(),
                                         c.getApplyDate().toLocalDate().toString(),
                                         c.getBookingDay().toString(),
                                         c.getDuration()
@@ -86,30 +81,30 @@ public class UserCustomRepositoryImpl implements UserCustomRepository{
         return new PageImpl<>(classSessionResponses, p, counts);
     }
 
-    private String getUserStatus(Boolean userDeprecated, Boolean mentorChecked, Boolean mentorDeprecated, LocalDateTime bookingDay){
+    private ClassSessionStatus getUserStatus(Boolean userDeprecated, Boolean mentorChecked, Boolean mentorDeprecated, LocalDateTime bookingDay){
 
         if(bookingDay.isAfter(LocalDateTime.now())){
             if(userDeprecated){
-                return userRefuse;
+                return ClassSessionStatus.USER_REFUSE;
             }else{
                 if(mentorChecked){
-                    return assign;
+                    return ClassSessionStatus.ASSIGN;
                 }else{
                     if(mentorDeprecated){
-                        return mentorRefuse;
+                        return ClassSessionStatus.MENTOR_REFUSE;
                     }else{
-                        return pending;
+                        return ClassSessionStatus.PENDING;
                     }
                 }
             }
         }else{
             if(userDeprecated){
-                return userRefuse;
+                return ClassSessionStatus.USER_REFUSE;
             }else{
                 if(mentorChecked) {
-                    return complete;
+                    return ClassSessionStatus.COMPLETE;
                 }
-                return expiredDate;
+                return ClassSessionStatus.EXPIRED;
             }
         }
     }
