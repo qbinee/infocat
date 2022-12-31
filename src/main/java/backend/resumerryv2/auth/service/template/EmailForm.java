@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum EmailForm {
-  SIGNUP_AUTH_REQUEST("[Resumerry] 인증번호는 %s 입니다."),
+  SIGNUP_AUTH_REQUEST("[Infocat] 인증번호는 %s 입니다."),
   VALIDATION_CODE_FORM(
       "안녕하세요 \n"
           + "\n"
