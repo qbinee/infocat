@@ -115,7 +115,7 @@ public class MentorCustomRepositoryImpl implements MentorCustomRepository {
                 .where(classSession.mentorClass.id.eq(mentoringClassId), classSession.bookingDay.after(LocalDateTime.now()))
                 .fetch()
                 .stream()
-                .map(b -> b.toString() + ".000Z")
+                .map(b -> b.toString() + ":00.000Z")
                 .toList();
     }
 
