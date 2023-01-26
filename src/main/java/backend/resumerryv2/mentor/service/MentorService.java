@@ -37,6 +37,7 @@ import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Service
@@ -206,7 +207,7 @@ public class MentorService {
 
     LocalDate now = LocalDate.now();
     now.plusDays(3);
-    List<LocalDate> availableDays = now.datesUntil(now.plusDays(11), Period.ofDays(1)).toList();
+    List<LocalDate> availableDays = now.datesUntil(now.plusDays(11), Period.ofDays(1)).collect(Collectors.toList());
 
     String[] timeSchedule = timeScheduleStr.substring(1, timeScheduleStr.length()-1).split(", ");
 
@@ -256,7 +257,7 @@ public class MentorService {
                     .mentor(mentor)
                     .mentorClass(mentorClass)
                     .build())
-        .toList();
+        .collect(Collectors.toList());
   }
 
   private Mentor findMentorByUser(User user) {
