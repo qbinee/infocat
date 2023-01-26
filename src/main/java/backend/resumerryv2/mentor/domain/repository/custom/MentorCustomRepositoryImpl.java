@@ -123,7 +123,7 @@ public class MentorCustomRepositoryImpl implements MentorCustomRepository {
                 .fetch()
                 .stream()
                 .map(b -> b.toString() + ":00.000Z")
-                .toList();
+                .collect(Collectors.toList());
     }
 
     @Override
