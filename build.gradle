@@ -92,3 +92,6 @@ spotless {
 		endWithNewline()
 	}
 }
+compileJava {
+	dependsOn 'spotlessJava'
+}
