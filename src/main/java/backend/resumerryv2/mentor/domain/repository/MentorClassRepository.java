@@ -2,14 +2,13 @@
 package backend.resumerryv2.mentor.domain.repository;
 
 import backend.resumerryv2.mentor.domain.MentorClass;
+import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.Optional;
-
 public interface MentorClassRepository extends JpaRepository<MentorClass, Long> {
-  @Override
-  <S extends MentorClass> S save(S entity);
+    @Override
+    <S extends MentorClass> S save(S entity);
 
-  @Override
-  Optional<MentorClass> findById(Long aLong);
+    @Override
+    Optional<MentorClass> findById(Long aLong);
 }

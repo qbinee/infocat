@@ -1,3 +1,4 @@
+/* Licensed under InfoCat */
 package backend.resumerryv2.auth.web.dto;
 
 import lombok.AllArgsConstructor;
@@ -21,5 +22,4 @@ public class TokenDTO {
     public static final class Response {
         private String validationToken;
     }
-
 }

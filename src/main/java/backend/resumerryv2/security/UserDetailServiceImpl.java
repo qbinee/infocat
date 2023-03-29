@@ -16,15 +16,17 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 @RequiredArgsConstructor
 public class UserDetailServiceImpl implements UserDetailsService {
-  private final UserRepository userRepository;
+    private final UserRepository userRepository;
 
-  @Override
-  public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-    User user = userRepository.findByEmailAndIsDeleteFalse(email)
-            .orElseThrow(() -> new UsernameNotFoundException("Could not found database"));
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        User user =
+                userRepository
+                        .findByEmailAndIsDeleteFalse(email)
+                        .orElseThrow(
+                                () -> new UsernameNotFoundException("Could not found database"));
 
-    log.info("User found in the database" + user);
-    return new CustomUserDetails(email);
-  }
-
+        log.info("User found in the database" + user);
+        return new CustomUserDetails(email);
+    }
 }

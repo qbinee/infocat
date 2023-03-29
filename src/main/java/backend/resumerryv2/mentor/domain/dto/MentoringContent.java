@@ -1,3 +1,4 @@
+/* Licensed under InfoCat */
 package backend.resumerryv2.mentor.domain.dto;
 
 import backend.resumerryv2.category.domain.enums.Company;
@@ -7,7 +8,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter @Setter
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class MentoringContent {

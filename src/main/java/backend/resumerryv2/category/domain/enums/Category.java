@@ -1,12 +1,12 @@
+/* Licensed under InfoCat */
 package backend.resumerryv2.category.domain.enums;
-
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 
 import java.util.Collections;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
@@ -22,7 +22,10 @@ public enum Category {
 
     private static final Map<Integer, String> CODE_MAP =
             Collections.unmodifiableMap(
-                    Stream.of(values()).collect(Collectors.toMap(Category::getCode, Category::name)));
+                    Stream.of(values())
+                            .collect(Collectors.toMap(Category::getCode, Category::name)));
 
-    public static Category of(Integer code) { return Category.valueOf(CODE_MAP.get(code));}
+    public static Category of(Integer code) {
+        return Category.valueOf(CODE_MAP.get(code));
+    }
 }

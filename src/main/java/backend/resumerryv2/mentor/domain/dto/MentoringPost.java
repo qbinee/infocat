@@ -1,3 +1,4 @@
+/* Licensed under InfoCat */
 package backend.resumerryv2.mentor.domain.dto;
 
 import lombok.AllArgsConstructor;

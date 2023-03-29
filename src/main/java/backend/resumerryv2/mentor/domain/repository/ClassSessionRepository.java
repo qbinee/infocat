@@ -1,3 +1,4 @@
+/* Licensed under InfoCat */
 package backend.resumerryv2.mentor.domain.repository;
 
 import backend.resumerryv2.mentor.domain.ClassSession;

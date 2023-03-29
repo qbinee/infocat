@@ -1,6 +1,14 @@
 /* Licensed under InfoCat */
 package backend.resumerryv2.mentor.domain.repository.custom;
 
+import static backend.resumerryv2.category.domain.entity.QCategory.category1;
+import static backend.resumerryv2.category.domain.entity.QRole.role1;
+import static backend.resumerryv2.mentor.domain.QClassSession.classSession;
+import static backend.resumerryv2.mentor.domain.QClassWeekSchedule.classWeekSchedule;
+import static backend.resumerryv2.mentor.domain.QMentor.mentor;
+import static backend.resumerryv2.mentor.domain.QMentorClass.mentorClass;
+import static backend.resumerryv2.user.domain.QUser.user;
+
 import backend.resumerryv2.category.domain.enums.Category;
 import backend.resumerryv2.category.domain.enums.Role;
 import backend.resumerryv2.global.enums.ClassSessionStatus;
@@ -17,31 +25,20 @@ import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
-
-import static backend.resumerryv2.category.domain.entity.QCategory.category1;
-import static backend.resumerryv2.category.domain.entity.QRole.role1;
-import static backend.resumerryv2.mentor.domain.QClassSession.classSession;
-import static backend.resumerryv2.mentor.domain.QClassWeekSchedule.classWeekSchedule;
-import static backend.resumerryv2.mentor.domain.QMentor.mentor;
-import static backend.resumerryv2.mentor.domain.QMentorClass.mentorClass;
-import static backend.resumerryv2.user.domain.QUser.user;
-
 @RequiredArgsConstructor
 @Repository
 public class MentorCustomRepositoryImpl implements MentorCustomRepository {
     private final JPAQueryFactory jpaQueryFactory;
-
-
 
     @Override
     public Page<MentorContent> searchAll(FieldOfMentorList f, Pageable p) {
@@ -49,28 +46,32 @@ public class MentorCustomRepositoryImpl implements MentorCustomRepository {
         List<Long> roles = findClassIdByRole(f.getCategory());
         List<Long> categories = findClassIdByCategory(f.getField());
 
-        List<Long> mentorClassIds = roles.stream()
-                .filter(
-                        old -> categories.stream().anyMatch(Predicate.isEqual(old)))
-                .collect(Collectors.toList());
+        List<Long> mentorClassIds =
+                roles.stream()
+                        .filter(old -> categories.stream().anyMatch(Predicate.isEqual(old)))
+                        .collect(Collectors.toList());
 
         List<MentorContent> mentorClassList =
                 jpaQueryFactory
                         .select(
-                                Projections.constructor(MentorContent.class,
+                                Projections.constructor(
+                                        MentorContent.class,
                                         mentorClass.id,
                                         mentorClass.title,
                                         role1.role,
                                         mentor.company,
                                         mentor.years,
                                         mentor.years,
-                                        mentorClass.image
-                                )
-                        )
+                                        mentorClass.image))
                         .from(mentorClass)
-                        .leftJoin(mentor).on(mentor.id.eq(mentorClass.mentor.id))
-                        .leftJoin(role1).on(role1.mentorClass.id.eq(mentorClass.id))
-                        .where(eqMentorClassIds(mentorClassIds), eqTitle(f.getTitle()), mentor.user.isDelete.isFalse())
+                        .leftJoin(mentor)
+                        .on(mentor.id.eq(mentorClass.mentor.id))
+                        .leftJoin(role1)
+                        .on(role1.mentorClass.id.eq(mentorClass.id))
+                        .where(
+                                eqMentorClassIds(mentorClassIds),
+                                eqTitle(f.getTitle()),
+                                mentor.user.isDelete.isFalse())
                         .offset(p.getOffset())
                         .limit(p.getPageSize())
                         .orderBy(getSorted(f.getSorted()))
@@ -90,7 +91,8 @@ public class MentorCustomRepositoryImpl implements MentorCustomRepository {
     public MentoringContent getMentoringClassInfo(Long mentoringClassId) {
         return jpaQueryFactory
                 .select(
-                        Projections.constructor(MentoringContent.class,
+                        Projections.constructor(
+                                MentoringContent.class,
                                 mentorClass.id,
                                 mentor.id,
                                 mentor.name,
@@ -104,12 +106,12 @@ public class MentorCustomRepositoryImpl implements MentorCustomRepository {
                                 mentor.company,
                                 mentor.stars,
                                 mentorClass.image,
-                                mentorClass.price
-                        )
-                )
+                                mentorClass.price))
                 .from(mentorClass)
-                .innerJoin(mentor).on(mentor.id.eq(mentorClass.mentor.id))
-                .leftJoin(role1).on(role1.mentorClass.id.eq(mentorClass.id))
+                .innerJoin(mentor)
+                .on(mentor.id.eq(mentorClass.mentor.id))
+                .leftJoin(role1)
+                .on(role1.mentorClass.id.eq(mentorClass.id))
                 .where(mentorClass.id.eq(mentoringClassId))
                 .fetchOne();
     }
@@ -119,7 +121,9 @@ public class MentorCustomRepositoryImpl implements MentorCustomRepository {
         return jpaQueryFactory
                 .select(classSession.bookingDay)
                 .from(classSession)
-                .where(classSession.mentorClass.id.eq(mentoringClassId), classSession.bookingDay.after(LocalDateTime.now()))
+                .where(
+                        classSession.mentorClass.id.eq(mentoringClassId),
+                        classSession.bookingDay.after(LocalDateTime.now()))
                 .fetch()
                 .stream()
                 .map(b -> b.toString() + ":00.000Z")
@@ -127,88 +131,100 @@ public class MentorCustomRepositoryImpl implements MentorCustomRepository {
     }
 
     @Override
-    public Page<ClassSessionResponse> getClassSession(Mentor mentor, Pageable pageable){
-        List<ClassSessionContent> classSessionContents = jpaQueryFactory
-                .select(
-                        Projections.constructor(ClassSessionContent.class,
-                                classSession.id,
-                                mentorClass.title,
-                                user.nickname,
-                                classSession.userDeprecated,
-                                classSession.mentorChecked,
-                                classSession.mentorDeprecated,
-                                classSession.createdDate,
-                                classSession.bookingDay,
-                                classWeekSchedule.duration
-
-                        )
-                )
-                .from(classSession)
-                .innerJoin(mentorClass).on(mentorClass.id.eq(classSession.mentorClass.id))
-                .innerJoin(classWeekSchedule).on(classWeekSchedule.mentorClass.id.eq(classSession.mentorClass.id))
-                .innerJoin(user).on(user.id.eq(classSession.user.id))
-                .where(classSession.mentorClass.mentor.id.eq(mentor.getId()))
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
-                .fetch();
+    public Page<ClassSessionResponse> getClassSession(Mentor mentor, Pageable pageable) {
+        List<ClassSessionContent> classSessionContents =
+                jpaQueryFactory
+                        .select(
+                                Projections.constructor(
+                                        ClassSessionContent.class,
+                                        classSession.id,
+                                        mentorClass.title,
+                                        user.nickname,
+                                        classSession.userDeprecated,
+                                        classSession.mentorChecked,
+                                        classSession.mentorDeprecated,
+                                        classSession.createdDate,
+                                        classSession.bookingDay,
+                                        classWeekSchedule.duration))
+                        .from(classSession)
+                        .innerJoin(mentorClass)
+                        .on(mentorClass.id.eq(classSession.mentorClass.id))
+                        .innerJoin(classWeekSchedule)
+                        .on(classWeekSchedule.mentorClass.id.eq(classSession.mentorClass.id))
+                        .innerJoin(user)
+                        .on(user.id.eq(classSession.user.id))
+                        .where(classSession.mentorClass.mentor.id.eq(mentor.getId()))
+                        .offset(pageable.getOffset())
+                        .limit(pageable.getPageSize())
+                        .fetch();
 
         long counts =
                 jpaQueryFactory
                         .select(classSession.count())
                         .from(classSession)
-                        .innerJoin(mentorClass).on(mentorClass.id.eq(classSession.mentorClass.id))
+                        .innerJoin(mentorClass)
+                        .on(mentorClass.id.eq(classSession.mentorClass.id))
                         .where(mentorClass.mentor.id.eq(mentor.getId()))
                         .fetchOne();
 
         return contentToResponse(classSessionContents, counts, pageable);
     }
 
-    private Page<ClassSessionResponse> contentToResponse(List<ClassSessionContent> contents, Long counts, Pageable p){
-        List<ClassSessionResponse> classSessionResponses = contents.stream()
-                .map(
-                        c ->
-                                new ClassSessionResponse(
-                                        c.getClassSessionId(),
-                                        c.getTitle(),
-                                        c.getName(),
-                                        getMentorStatus(c.getUserDeprecated(), c.getMentorChecked(), c.getMentorDeprecated(), c.getBookingDay()).getName(),
-                                        c.getApplyDate().toLocalDate().toString(),
-                                        c.getBookingDay().toString() + ":00.000Z",
-                                        c.getDuration()
-                                ))
-                .collect(Collectors.toList());
+    private Page<ClassSessionResponse> contentToResponse(
+            List<ClassSessionContent> contents, Long counts, Pageable p) {
+        List<ClassSessionResponse> classSessionResponses =
+                contents.stream()
+                        .map(
+                                c ->
+                                        new ClassSessionResponse(
+                                                c.getClassSessionId(),
+                                                c.getTitle(),
+                                                c.getName(),
+                                                getMentorStatus(
+                                                                c.getUserDeprecated(),
+                                                                c.getMentorChecked(),
+                                                                c.getMentorDeprecated(),
+                                                                c.getBookingDay())
+                                                        .getName(),
+                                                c.getApplyDate().toLocalDate().toString(),
+                                                c.getBookingDay().toString() + ":00.000Z",
+                                                c.getDuration()))
+                        .collect(Collectors.toList());
         return new PageImpl<>(classSessionResponses, p, counts);
     }
-    private ClassSessionStatus getMentorStatus(Boolean userDeprecated, Boolean mentorChecked, Boolean mentorDeprecated, LocalDateTime bookingDay){
-        if(bookingDay.isAfter(LocalDateTime.now())){
-            if(userDeprecated){
+
+    private ClassSessionStatus getMentorStatus(
+            Boolean userDeprecated,
+            Boolean mentorChecked,
+            Boolean mentorDeprecated,
+            LocalDateTime bookingDay) {
+        if (bookingDay.isAfter(LocalDateTime.now())) {
+            if (userDeprecated) {
                 return ClassSessionStatus.USER_REFUSE;
-            }else{
-                if(mentorChecked){
+            } else {
+                if (mentorChecked) {
                     return ClassSessionStatus.ASSIGN;
-                }else{
+                } else {
                     return ClassSessionStatus.PENDING;
                 }
             }
-        }else{
-            if(userDeprecated){
+        } else {
+            if (userDeprecated) {
                 return ClassSessionStatus.USER_REFUSE;
-            }else{
+            } else {
                 return ClassSessionStatus.COMPLETE;
             }
         }
     }
 
     private List<Long> findClassIdByRole(List<Integer> i) {
-        return jpaQueryFactory
-                .select(role1.mentorClass.id).from(role1)
-                .where(eqRole(i))
-                .fetch();
+        return jpaQueryFactory.select(role1.mentorClass.id).from(role1).where(eqRole(i)).fetch();
     }
 
     private List<Long> findClassIdByCategory(List<Integer> i) {
         return jpaQueryFactory
-                .select(category1.mentorClass.id).from(category1)
+                .select(category1.mentorClass.id)
+                .from(category1)
                 .where(eqCategories(i))
                 .fetch();
     }
@@ -281,5 +297,4 @@ public class MentorCustomRepositoryImpl implements MentorCustomRepository {
                         .collect(Collectors.toList());
         return new PageImpl<>(contents, p, counts);
     }
-
 }

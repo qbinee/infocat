@@ -1,7 +1,8 @@
+/* Licensed under InfoCat */
 package backend.resumerryv2.security;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.Objects;
+import javax.servlet.http.HttpServletRequest;
 
 public class AuthorizationExtractor {
 
