@@ -10,7 +10,7 @@ plugins {
 	//querydsl 추가
 	id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
 	// spotless 추가
-	id "com.diffplug.gradle.spotless" version "3.28.1"
+	id "com.diffplug.gradle.spotless" version "4.5.1"
 	id 'java'
 }
 
@@ -77,20 +77,11 @@ tasks.named('test') {
 // spotless 추가 시작
 spotless {
 	java {
-		removeUnusedImports()
-		trimTrailingWhitespace()
-		indentWithTabs()
-		endWithNewline()
-		licenseHeader '/* Licensed under InfoCat */'
-		importOrder 'java', 'javax', 'org', 'com', 'com.diffplug', ''
 		googleJavaFormat()
+		licenseHeader '/* Licensed under InfoCat */'
+		importOrder(['java', 'javax', 'org', 'com', 'com.diffplug',''])
 	}
-	format 'misc', {
-		target '**/*.gradle', '**/*.md', '**/.gitignore'
-		trimTrailingWhitespace()
-		indentWithTabs()
-		endWithNewline()
-	}
+
 }
 compileJava {
 	dependsOn 'spotlessJava'
