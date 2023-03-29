@@ -1,5 +1,10 @@
+/* Licensed under InfoCat */
 package backend.resumerryv2.global.config.swagger;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.function.Predicate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,11 +17,6 @@ import springfox.documentation.builders.ResponseBuilder;
 import springfox.documentation.service.*;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
-
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.function.Predicate;
 
 @Configuration
 public class SwaggerConfig {
@@ -41,20 +41,11 @@ public class SwaggerConfig {
                 .apiInfo(apiInfo());
     }
 
-    private List<Response> globalResponse(){
-         return Arrays.asList(
-                new ResponseBuilder()
-                        .code("200")
-                        .description("OK")
-                        .build(),
-                new ResponseBuilder()
-                        .code("400")
-                        .description("Bad Request")
-                        .build(),
-                new ResponseBuilder()
-                        .code("500")
-                        .description("Internal Error")
-                        .build());
+    private List<Response> globalResponse() {
+        return Arrays.asList(
+                new ResponseBuilder().code("200").description("OK").build(),
+                new ResponseBuilder().code("400").description("Bad Request").build(),
+                new ResponseBuilder().code("500").description("Internal Error").build());
     }
 
     private ApiInfo apiInfo() {
@@ -64,22 +55,15 @@ public class SwaggerConfig {
                 .version("1.0.0")
                 .build();
     }
+
     private Server serverInfo() {
-        return new Server("",
-                swaggerPath,
-                "",
-                Collections.emptyList(),
-                Collections.emptyList()
-        );
+        return new Server("", swaggerPath, "", Collections.emptyList(), Collections.emptyList());
     }
+
     private List<SecurityScheme> apiKeys() {
 
         return Arrays.asList(
-                new ApiKey("Authorization", "Bearer", "cookies")
-                ,
-                new ApiKey("Validation", "Validation", "header")
-        );
-
+                new ApiKey("Authorization", "Bearer", "cookies"),
+                new ApiKey("Validation", "Validation", "header"));
     }
-
 }

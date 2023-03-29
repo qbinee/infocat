@@ -1,5 +1,5 @@
+/* Licensed under InfoCat */
 package backend.resumerryv2.security.config;
-
 
 import backend.resumerryv2.security.JwtAuthenticationFilter;
 import backend.resumerryv2.security.exception.JwtAuthenticationEntryPoint;
@@ -26,29 +26,37 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-
-                .httpBasic()
+        http.httpBasic()
                 .and()
-                .csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .cors()
                 .and()
-                .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint)
+                .csrf()
+                .disable()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .exceptionHandling()
+                .authenticationEntryPoint(jwtAuthenticationEntryPoint)
                 .and()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS, "/**/*")
                 .permitAll()
-                .antMatchers("/users/login")
+                .antMatchers("/api/v1/auth/login")
                 .permitAll()
-                .antMatchers("/users/sample")
+                .antMatchers(
+                        "/api/v1/mentoring/posts",
+                        "/api/v1/mentoring/{mentoring_class_id}",
+                        "/api/v1/mentoring/{mentoring_class_id}/**")
+                .permitAll()
+                .antMatchers("/api/v1/auth/logout", "/api/v1/my_page", "/api/v1/my_page/**")
+                .authenticated()
+                .antMatchers("/api/v1/mentor", "/api/v1/mentoring", "/api/v1/mentoring/**")
                 .authenticated()
                 .anyRequest()
                 .permitAll()
                 .and()
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                ;
+                .addFilterBefore(
+                        jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
-
-
 }

@@ -1,10 +1,10 @@
+/* Licensed under InfoCat */
 package backend.resumerryv2.exception;
-
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 import java.util.HashMap;
 import java.util.Map;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
@@ -18,6 +18,7 @@ public class MethodArgumentNotValidExceptionResponse {
     }
 
     public static MethodArgumentNotValidExceptionResponse of(ErrorType errorType) {
-        return new MethodArgumentNotValidExceptionResponse(errorType.getErrorCode(), errorType.getMessage());
+        return new MethodArgumentNotValidExceptionResponse(
+                errorType.getErrorCode(), errorType.getMessage());
     }
 }
