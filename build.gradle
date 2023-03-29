@@ -75,7 +75,7 @@ configurations {
 
 spotless {
 	// optional: limit format enforcement to just the files changed by this feature branch
-	ratchetFrom 'origin/main'
+//	ratchetFrom 'origin/main'
 
 	format 'misc', {
 		// define the files to apply `misc` to
@@ -90,5 +90,6 @@ spotless {
 		// don't need to set target, it is inferred from java
 		// apply a specific flavor of google-java-format
 		googleJavaFormat('1.15.0').aosp().reflowLongStrings(false)
+		targetExclude('build/generated/querydsl/**')
 	}
 }
