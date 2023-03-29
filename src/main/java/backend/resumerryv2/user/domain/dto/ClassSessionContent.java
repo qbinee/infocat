@@ -1,13 +1,14 @@
+/* Licensed under InfoCat */
 package backend.resumerryv2.user.domain.dto;
 
+import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
-
-@Setter @Getter
+@Setter
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 public class ClassSessionContent {

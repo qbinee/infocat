@@ -1,13 +1,14 @@
+/* Licensed under InfoCat */
 package backend.resumerryv2.mentor.web.dto;
 
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-
-@Getter @Setter
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class MentoringScheduleResponse {

@@ -9,11 +9,11 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class MentorContent {
-  private Long id;
-  private String title;
-  private Role role;
-  private Company company;
-  private Integer stars;
-  private Integer years;
-  private String image;
+    private Long id;
+    private String title;
+    private Role role;
+    private Company company;
+    private Integer stars;
+    private Integer years;
+    private String image;
 }

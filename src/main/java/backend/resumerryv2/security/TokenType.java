@@ -9,9 +9,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @AllArgsConstructor
 public enum TokenType {
-  ACCESS_TOKEN("AccessToken", 3600),
-  VALIDATION_TOKEN("ValidationToken", 600),
-  ;
-  private String key;
-  private Integer value;
+    ACCESS_TOKEN("AccessToken", 3600),
+    VALIDATION_TOKEN("ValidationToken", 600),
+    ;
+    private String key;
+    private Integer value;
 }

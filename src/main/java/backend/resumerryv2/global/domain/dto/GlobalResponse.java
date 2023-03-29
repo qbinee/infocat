@@ -12,11 +12,11 @@ import lombok.Setter;
 @Setter
 public class GlobalResponse {
 
-  private static final String STATUS_SUCCESS = "true";
-  private static final String STATUS_FAILURE = "false";
-  private String result;
+    private static final String STATUS_SUCCESS = "true";
+    private static final String STATUS_FAILURE = "false";
+    private String result;
 
-  public static GlobalResponse ofSuccess() {
-    return new GlobalResponse(STATUS_SUCCESS);
-  }
+    public static GlobalResponse ofSuccess() {
+        return new GlobalResponse(STATUS_SUCCESS);
+    }
 }
