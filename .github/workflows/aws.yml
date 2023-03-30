@@ -59,10 +59,10 @@ jobs:
         key: ${{ secrets.EC2_PRIVATE_KEY }}
         script: |
           cd /home/ubuntu/infocat/build/libs/
-          java -jar -Dspring.datasource.url=${DB_URL} \
-                -Dspring.datasource.username=${DB_USERNAME} \
-                -Dspring.datasource.password=${DB_PASSWORD} \
-                -Dspring.mail.username=${MAIL_USERNAME} \
-                -Dspring.mail.password=${MAIL_PASSWORD} \
-                -Djwt.secret=${JWT_SECRET} \
+          java -jar -DDB_URL=${DB_URL} \
+                -DDB_USERNAME=${DB_USERNAME} \
+                -DDB_PASSWORD=${DB_PASSWORD} \
+                -DMAIL_USERNAME=${MAIL_USERNAME} \
+                -DMAIL_PASSWORD=${MAIL_PASSWORD} \
+                -DJWT_SECRET=${JWT_SECRET} \
                 resumerry-v2-0.0.1-SNAPSHOT.jar
