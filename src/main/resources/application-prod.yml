@@ -11,7 +11,7 @@ spring:
     init:
       mode: always
   datasource:
-    url: ${DB_URL:jdbc:mysql://resumerry.c1wuckwlvegg.ap-northeast-2.rds.amazonaws.com:3306/resumerry}
+    url: jdbc:mysql://resumerry.c1wuckwlvegg.ap-northeast-2.rds.amazonaws.com:3306/resumerry
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
