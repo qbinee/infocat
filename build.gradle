@@ -37,7 +37,6 @@ dependencies {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
 	testImplementation 'org.springframework.security:spring-security-test'
-	// QueryDSL
 	implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
 	annotationProcessor(
 			"javax.persistence:javax.persistence-api",
@@ -74,21 +73,15 @@ configurations {
 }
 
 spotless {
-	// optional: limit format enforcement to just the files changed by this feature branch
-//	ratchetFrom 'origin/main'
+	ratchetFrom 'origin/main'
 
 	format 'misc', {
-		// define the files to apply `misc` to
 		target '*.gradle', '*.md', '.gitignore'
-
-		// define the steps to apply to those files
 		trimTrailingWhitespace()
-		indentWithTabs() // or spaces. Takes an integer argument if you don't like 4
+		indentWithTabs()
 		endWithNewline()
 	}
 	java {
-		// don't need to set target, it is inferred from java
-		// apply a specific flavor of google-java-format
 		googleJavaFormat('1.15.0').aosp().reflowLongStrings(false)
 		targetExclude('build/generated/querydsl/**')
 	}
