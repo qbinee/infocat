@@ -1,0 +1,44 @@
+spring:
+  jackson:
+    serialization:
+      fail-on-empty-beans: false
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  application:
+    bane: user-service
+  sql:
+    init:
+      mode: always
+  datasource:
+    url: ${{ secrets.DB_URL }}
+    username: ${{ secrets.DB_USERNAME }}
+    password: ${{ secrets.DB_PASSWORD }}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    defer-datasource-initialization: false
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${{ secrets.MAIL_USERNAME }}
+    password: ${{ secrets.MAIL_PASSWORD }}
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: true
+            required: true
+          auth: true
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
+jwt:
+  secret: ${{ secrets.JWT_SECRETE }}
+
+swagger-ui:
+  path: http://localhost:8080
