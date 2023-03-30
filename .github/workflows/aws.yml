@@ -5,14 +5,6 @@ on:
   push:
     branches:
       - develop
-env:
-  DB_USERNAME: ${{ secrets.DB_USERNAME }}
-  DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-  DB_URL: ${{ secrets.DB_URL }}
-  MAIL_USERNAME: ${{ secrets.MAIL_USERNAME }}
-  MAIL_PASSWORD: ${{ secrets.MAIL_PASSWORD }}
-  JWT_SECRET: ${{ secrets.JWT_SECRET }}
-
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -57,7 +49,14 @@ jobs:
         host: ${{ secrets.EC2_HOST }}
         username: ${{ secrets.EC2_USERNAME }}
         key: ${{ secrets.EC2_PRIVATE_KEY }}
-        script: |
+        env:
+          DB_USERNAME: ${{ secrets.DB_USERNAME }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          DB_URL: ${{ secrets.DB_URL }}
+          MAIL_USERNAME: ${{ secrets.MAIL_USERNAME }}
+          MAIL_PASSWORD: ${{ secrets.MAIL_PASSWORD }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+        run: |
           cd /home/ubuntu/infocat/build/libs/
           java -jar -DDB_URL=$DB_URL \
                 -DDB_USERNAME=$DB_USERNAME \
