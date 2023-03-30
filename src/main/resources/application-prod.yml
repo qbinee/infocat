@@ -12,8 +12,8 @@ spring:
       mode: always
   datasource:
     url: jdbc:mysql://resumerry.c1wuckwlvegg.ap-northeast-2.rds.amazonaws.com:3306/resumerry
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
+    username: ${systemProperties['DB_USERNAME']}
+    password: ${systemProperties['DB_PASSWORD']}
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     database: mysql
@@ -25,8 +25,8 @@ spring:
   mail:
     host: smtp.gmail.com
     port: 587
-    username: ${MAIL_USERNAME}
-    password: ${MAIL_PASSWORD}
+    username: ${systemProperties['MAIL_USERNAME']}
+    password: ${systemProperties['MAIL_PASSWORD']}
     properties:
       mail:
         smtp:
@@ -38,7 +38,7 @@ spring:
           timeout: 5000
           writetimeout: 5000
 jwt:
-  secret: ${JWT_SECRET}
+  secret: ${systemProperties['JWT_SECRET']}
 
 swagger-ui:
   path: http://localhost:8080
