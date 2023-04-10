@@ -49,7 +49,7 @@ jobs:
         host: ${{ secrets.EC2_HOST }}
         username: ${{ secrets.EC2_USERNAME }}
         key: ${{ secrets.EC2_PRIVATE_KEY }}
-        run: |
+        script: |
           cd /home/ubuntu/infocat/build/libs/
           java -jar -DDB_URL=${{ secrets.DB_URL }} \
                 -DDB_USERNAME=${{ secrets.DB_USERNAME }} \
