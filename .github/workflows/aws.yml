@@ -58,4 +58,5 @@ jobs:
                 -DMAIL_PASSWORD=${{ secrets.MAIL_PASSWORD }} \
                 -DJWT_SECRET=${{ secrets.JWT_SECRET }} \
                 resumerry-v2-0.0.1-SNAPSHOT.jar
+          exit
 
