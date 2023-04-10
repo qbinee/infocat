@@ -50,6 +50,8 @@ jobs:
         username: ${{ secrets.EC2_USERNAME }}
         key: ${{ secrets.EC2_PRIVATE_KEY }}
         script: |
+          pid=$(lsof -t -i:8080)
+          kill -9 $pid
           cd /home/ubuntu/infocat/build/libs/
           java -jar -DDB_URL=${{ secrets.DB_URL }} \
                 -DDB_USERNAME=${{ secrets.DB_USERNAME }} \
